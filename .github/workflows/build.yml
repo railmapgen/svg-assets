@@ -41,12 +41,19 @@ jobs:
         env:
           BUMP_VERSION: ${{ github.event.inputs.bump_version }}
 
+      - name: Publish
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: |
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RMG_NPM_PUBLISH }}
+
       - name: Upload artefacts
         uses: railmapgen/upload-artefacts@main
         with:
           app_name: seed-project
           version: ${{ steps.build.outputs.RMG_VER }}
-          dist: dist
+          dist: storybook-static
           token: ${{ secrets.RMG_BUILD_AND_RELEASE }}
 
       - name: Auto deploy
@@ -56,4 +63,4 @@ jobs:
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Content-Type: application/json" \
             https://api.github.com/repos/uat-railmapgen/rmg-repositories/actions/workflows/release.yml/dispatches \
-            --data '{"ref": "main", "inputs": {"app_name": "seed-project", "version": "${{ steps.build.outputs.RMG_VER }}", "environment": "${{ github.event.inputs.auto_deploy }}"}}'
+            --data '{"ref": "main", "inputs": {"app_name": "svg-assets", "version": "${{ steps.build.outputs.RMG_VER }}", "environment": "${{ github.event.inputs.auto_deploy }}"}}'

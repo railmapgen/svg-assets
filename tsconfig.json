@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "outDir": "./dist",
         "target": "es5",
         "lib": [
             "dom",
@@ -14,7 +15,8 @@
         "forceConsistentCasingInFileNames": true,
         "downlevelIteration": true,
         "module": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
+        "declaration": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,

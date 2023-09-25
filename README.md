@@ -1,1 +1,1 @@
-# RMG Seed Project
+# SVG Assets

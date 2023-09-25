@@ -10,7 +10,7 @@ git config --global user.name 'github-actions[bot]'
 git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
 # variables
-export APP_NAME=$(node -p "require('./package.json').name")
+export APP_NAME=svg-assets
 BRANCH=$(git branch | grep \* | cut -d ' ' -f2 | tr '/' '.')
 
 # npm config
@@ -41,3 +41,10 @@ fi
 
 echo "Build Success: $APP_NAME-$RMG_VER"
 echo "RMG_VER=$RMG_VER" >> $GITHUB_OUTPUT
+
+# Set up .npmrc for publishing
+cat >> ./.npmrc << EOF
+//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}
+registry=https://registry.npmjs.org/
+always-auth=true
+EOF
