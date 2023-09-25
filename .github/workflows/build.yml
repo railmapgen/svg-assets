@@ -51,7 +51,7 @@ jobs:
       - name: Upload artefacts
         uses: railmapgen/upload-artefacts@main
         with:
-          app_name: seed-project
+          app_name: svg-assets
           version: ${{ steps.build.outputs.RMG_VER }}
           dist: storybook-static
           token: ${{ secrets.RMG_BUILD_AND_RELEASE }}
