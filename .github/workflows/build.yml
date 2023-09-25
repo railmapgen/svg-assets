@@ -42,7 +42,7 @@ jobs:
           BUMP_VERSION: ${{ github.event.inputs.bump_version }}
 
       - name: Publish
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           npm publish --access public
         env:
