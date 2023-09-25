@@ -24,4 +24,4 @@ import{j as t}from"./jsx-runtime-6eef64cc.js";import{r}from"./index-c013ead5.js"
     }
   }
 }`,...(g=(f=l.parameters)==null?void 0:f.docs)==null?void 0:g.source}}};const C=["Basic"];export{l as Basic,C as __namedExportsOrder,q as default};
-//# sourceMappingURL=station-number.stories-fdc2085f.js.map
+//# sourceMappingURL=station-number.stories-c6f4e4ea.js.map
