@@ -9,6 +9,6 @@
 }
 
 :root {
-    --rmg-theme-colour: '#F3D03E';
-    --rmg-theme-fg: '#fff';
+    --rmg-black: #132647;
+    --rmg-grey: #a2aaad;
 }
