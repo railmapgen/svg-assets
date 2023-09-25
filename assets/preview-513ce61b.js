@@ -1,2 +1,0 @@
-import{j as o}from"./jsx-runtime-6eef64cc.js";import"./index-c013ead5.js";import"./_commonjsHelpers-725317a4.js";const a={parameters:{actions:{argTypesRegex:"^on[A-Z].*"},controls:{matchers:{color:/(background|color)$/i,date:/Date$/}}},decorators:[r=>o.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",xmlnsXlink:"http://www.w3.org/1999/xlink",viewBox:"-100 -100 200 200",height:"200",children:o.jsx(r,{})})]};export{a as default};
-//# sourceMappingURL=preview-513ce61b.js.map
