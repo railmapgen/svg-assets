@@ -7,6 +7,7 @@
     },
     "license": "GPL-3.0-only",
     "devDependencies": {
+        "@railmapgen/rmg-palette-resources": "^2.1.0",
         "@storybook/addon-essentials": "^7.4.5",
         "@storybook/addon-interactions": "^7.4.5",
         "@storybook/addon-links": "^7.4.5",

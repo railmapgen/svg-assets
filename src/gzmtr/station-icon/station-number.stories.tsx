@@ -3,7 +3,7 @@ import '../index.css';
 import { StoryObj } from '@storybook/react';
 
 export default {
-    title: 'GZMTR - Station Number',
+    title: 'GZMTR/Station Number',
     component: StationNumber,
 };
 
@@ -11,7 +11,7 @@ type Story = StoryObj<typeof StationNumber>;
 
 export const Basic: Story = {
     args: {
-        lineNum: '1',
+        lineNum: '2',
         stnNum: '01',
         strokeColour: '#00629B',
     },

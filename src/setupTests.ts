@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import infoJson from '../info.json';
 import { TextEncoder } from 'util';
 

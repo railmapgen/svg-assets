@@ -6,7 +6,7 @@ const TEXT_MAX_WIDTH = 15;
 interface StationNumberProps extends SVGProps<SVGGElement> {
     lineNum: string;
     stnNum: string;
-    strokeColour?: string;
+    strokeColour: string;
     passed?: boolean;
     large?: boolean;
 }
@@ -33,7 +33,7 @@ export default function StationNumber(props: StationNumberProps) {
 
     return (
         <g {...others}>
-            <StationIcon strokeColour={passed ? '#aaa' : strokeColour} large={large} />
+            <StationIcon stroke={passed ? '#aaa' : strokeColour} large={large} />
             <g
                 textAnchor="middle"
                 fontSize={13.5}
