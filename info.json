@@ -1,6 +1,6 @@
 {
-    "component": "svg-assets",
-    "version": "9.9.9",
-    "environment": "DEV",
-    "instance": "localhost"
+  "component": "svg-assets",
+  "version": "0.0.3",
+  "environment": "PRD",
+  "instance": "GitHub"
 }
