@@ -9,10 +9,11 @@ interface StationNumberProps extends SVGProps<SVGGElement> {
     strokeColour: string;
     passed?: boolean;
     large?: boolean;
+    textClassName?: string;
 }
 
 export default function StationNumber(props: StationNumberProps) {
-    const { lineNum, stnNum, strokeColour, passed, large, ...others } = props;
+    const { lineNum, stnNum, strokeColour, passed, large, textClassName, ...others } = props;
 
     const lineNumEl = useRef<SVGTextElement | null>(null);
     const stnNumEl = useRef<SVGTextElement | null>(null);
@@ -41,12 +42,12 @@ export default function StationNumber(props: StationNumberProps) {
                 fill={passed ? '#aaa' : '#000'}
             >
                 <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>
-                    <text ref={lineNumEl} className="rmg-name__zh">
+                    <text ref={lineNumEl} className={textClassName} dominantBaseline="central">
                         {lineNum}
                     </text>
                 </g>
                 <g transform={`translate(9.25,0)scale(${stnNumScale})`}>
-                    <text ref={stnNumEl} className="rmg-name__zh">
+                    <text ref={stnNumEl} className={textClassName} dominantBaseline="central">
                         {stnNum}
                     </text>
                 </g>

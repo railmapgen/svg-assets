@@ -1,19 +1,21 @@
-import LineIcon from './line-icon';
+import LineIconComponent from './line-icon';
 import { StoryObj } from '@storybook/react';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 
 export default {
     title: 'GZMTR/Line Icon',
-    component: LineIcon,
+    component: LineIconComponent,
 };
 
-type Story = StoryObj<typeof LineIcon>;
+type Story = StoryObj<typeof LineIconComponent>;
 
-export const Basic: Story = {
+export const LineIcon: Story = {
     args: {
         lineName: ['2号线', 'Line 2'],
         foregroundColour: MonoColour.white,
         backgroundColour: '#00629B',
+        zhClassName: 'rmg-name__zh',
+        enClassName: 'rmg-name__en',
     },
     argTypes: {
         lineName: {

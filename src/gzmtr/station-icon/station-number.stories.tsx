@@ -1,19 +1,20 @@
-import StationNumber from './station-number';
-import '../index.css';
+import StationNumberComponent from './station-number';
+import '../../index.css';
 import { StoryObj } from '@storybook/react';
 
 export default {
     title: 'GZMTR/Station Number',
-    component: StationNumber,
+    component: StationNumberComponent,
 };
 
-type Story = StoryObj<typeof StationNumber>;
+type Story = StoryObj<typeof StationNumberComponent>;
 
-export const Basic: Story = {
+export const StationNumber: Story = {
     args: {
         lineNum: '2',
         stnNum: '01',
         strokeColour: '#00629B',
+        textClassName: 'rmg-name__en',
     },
     argTypes: {
         strokeColour: {

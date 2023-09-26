@@ -1,6 +1,6 @@
 import DisneyIconComponent from './disney-icon';
 import { StoryObj } from '@storybook/react';
-import '../index.css';
+import '../../index.css';
 
 export default {
     title: 'MTR/Disney Icon',

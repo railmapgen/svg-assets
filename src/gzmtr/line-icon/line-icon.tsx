@@ -10,12 +10,14 @@ export interface LineIconProps {
     lineName: Name;
     foregroundColour: MonoColour;
     backgroundColour: ColourHex;
+    zhClassName?: string;
+    enClassName?: string;
     passed?: boolean;
 }
 
 export default memo(
     function LineIcon(props: LineIconProps) {
-        const { lineName, foregroundColour, backgroundColour, passed } = props;
+        const { lineName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
 
         const [type, commonPart] = getType(lineName);
 
@@ -51,21 +53,27 @@ export default memo(
             <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour}>
                 <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
                 {type === 2 ? (
-                    <LineIconType2 lineName={lineName} commonPart={commonPart} />
+                    <LineIconType2
+                        lineName={lineName}
+                        commonPart={commonPart}
+                        zhClassName={zhClassName}
+                        enClassName={enClassName}
+                    />
                 ) : (
                     <>
                         <text
                             ref={nameZhEl}
-                            className="rmg-name__zh"
+                            className={zhClassName}
                             fontSize={12}
                             transform={`translate(0,${transforms.nameZh.y})scale(${nameZhScale})`}
+                            dominantBaseline="central"
                         >
                             {type === 1 ? (
                                 <>
-                                    <tspan fontSize={16} dy={0.7} className="rmg-name__zh">
+                                    <tspan fontSize={16} dy={0.7} dominantBaseline="central">
                                         {commonPart}
                                     </tspan>
-                                    <tspan dy={-0.7} className="rmg-name__zh">
+                                    <tspan dy={-0.7} dominantBaseline="central">
                                         {lineName[0].slice(commonPart.length)}
                                     </tspan>
                                 </>
@@ -75,9 +83,10 @@ export default memo(
                         </text>
                         <text
                             ref={nameEnEl}
-                            className="rmg-name__en"
+                            className={enClassName}
                             fontSize={8}
                             transform={`translate(0,${transforms.nameEn.y})scale(${nameEnScale})`}
+                            dominantBaseline="middle"
                         >
                             {lineName[1]}
                         </text>
@@ -90,6 +99,8 @@ export default memo(
         prevProps.lineName.toString() === nextProps.lineName.toString() &&
         prevProps.foregroundColour === nextProps.foregroundColour &&
         prevProps.backgroundColour === nextProps.backgroundColour &&
+        prevProps.zhClassName === nextProps.zhClassName &&
+        prevProps.enClassName === nextProps.enClassName &&
         prevProps.passed === nextProps.passed
 );
 

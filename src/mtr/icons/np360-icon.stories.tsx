@@ -1,6 +1,6 @@
 import Np360Icon from './np360-icon';
 import { StoryObj } from '@storybook/react';
-import '../index.css';
+import '../../index.css';
 
 export default {
     title: 'MTR/Ngong Ping 360 Icon',

@@ -4,11 +4,13 @@ import { MAX_WIDTH, Name } from './line-icon';
 interface LineIconType2Props {
     lineName: Name;
     commonPart: string;
+    zhClassName?: string;
+    enClassName?: string;
 }
 
 export default memo(
     function LineIconType2(props: LineIconType2Props) {
-        const { lineName, commonPart } = props;
+        const { lineName, commonPart, zhClassName, enClassName } = props;
 
         const wrapperEl = useRef<SVGGElement | null>(null);
         const [bBox, setBBox] = useState({ x: 0, height: 0, width: 0 } as DOMRect);
@@ -22,17 +24,34 @@ export default memo(
 
         return (
             <g ref={wrapperEl} transform={`translate(${dx},${dy})scale(${scale})`}>
-                <text className="rmg-name__zh" fontSize={14} y={12} textAnchor="end">
+                <text className={zhClassName} fontSize={14} y={12} textAnchor="end" dominantBaseline="central">
                     {commonPart}
-                    <tspan className="rmg-name__zh" fontSize={8} x={0} dy={-2} textAnchor="start">
+                    <tspan
+                        className={zhClassName}
+                        fontSize={8}
+                        x={0}
+                        dy={-2}
+                        textAnchor="start"
+                        dominantBaseline="central"
+                    >
                         {lineName[0].slice(commonPart.length).trim()}
                     </tspan>
-                    <tspan className="rmg-name__en" fontSize={4} x={0} dy={6} textAnchor="start">
+                    <tspan
+                        className={enClassName}
+                        fontSize={4}
+                        x={0}
+                        dy={6}
+                        textAnchor="start"
+                        dominantBaseline="middle"
+                    >
                         {lineName[1].slice(commonPart.length).trim()}
                     </tspan>
                 </text>
             </g>
         );
     },
-    (prevProps, nextProps) => prevProps.lineName.toString() === nextProps.lineName.toString()
+    (prevProps, nextProps) =>
+        prevProps.lineName.toString() === nextProps.lineName.toString() &&
+        prevProps.zhClassName === nextProps.zhClassName &&
+        prevProps.enClassName === nextProps.enClassName
 );

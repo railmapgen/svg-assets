@@ -1,7 +1,7 @@
 import { Fragment, PropsWithChildren } from 'react';
 
 const WIDTH = 200;
-const PADDED_WIDTH = 220;
+const PADDED_WIDTH = WIDTH * 1.1;
 const START = PADDED_WIDTH / 2;
 const POINTS = [-100, -75, -50, -25, 0, 25, 50, 75, 100];
 
@@ -13,7 +13,7 @@ export default function SvgWrapper(props: PropsWithChildren) {
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox={`-${START} -${START} ${PADDED_WIDTH} ${PADDED_WIDTH}`}
-            height={PADDED_WIDTH}
+            height="90vh"
         >
             <g fontSize={10}>
                 {POINTS.map(x => (

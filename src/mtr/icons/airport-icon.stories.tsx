@@ -1,6 +1,6 @@
 import AirportIconComponent from './airport-icon';
 import { StoryObj } from '@storybook/react';
-import '../index.css';
+import '../../index.css';
 
 export default {
     title: 'MTR/Airport Icon',

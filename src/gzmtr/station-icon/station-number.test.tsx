@@ -15,7 +15,7 @@ describe('GZMTR - StationNumber', () => {
         mockGetBBox.mockReturnValueOnce({ width: 14 }); // mock stn num bbox
         render(
             <svg>
-                <StationNumber lineNum="GF" stnNum="11" />
+                <StationNumber lineNum="GF" stnNum="11" strokeColour="red" />
             </svg>
         );
 
@@ -31,7 +31,7 @@ describe('GZMTR - StationNumber', () => {
         mockGetBBox.mockReturnValueOnce({ width: 20 }); // mock stn num bbox
         render(
             <svg>
-                <StationNumber lineNum="7" stnNum="01-6" />
+                <StationNumber lineNum="7" stnNum="01-6" strokeColour="red" />
             </svg>
         );
 
