@@ -49,6 +49,26 @@ describe('GZMTR - LineIcon', () => {
         expect(screen.getByText('Line 18').tagName).toBe('text');
     });
 
+    it('Can render type 1 line icon with digits spanning as expected', () => {
+        render(
+            <svg>
+                <LineIcon
+                    lineName={['18号线', 'Line 18']}
+                    foregroundColour={MonoColour.white}
+                    backgroundColour="#000000"
+                    spanDigit={true}
+                />
+            </svg>
+        );
+
+        // remaining part
+        expect(screen.getByText('号线').tagName).toBe('tspan');
+        expect(screen.getByText('Line 18').tagName).toBe('tspan');
+
+        // digits part
+        expect(screen.getByText('18').tagName).toBe('text');
+    });
+
     it('Can render type 2 line icon as expected', () => {
         render(
             <svg>
@@ -81,5 +101,21 @@ describe('GZMTR - LineIcon', () => {
 
         expect(screen.getByText('佛山2号线').tagName).toBe('text');
         expect(screen.getByText('Foshan Line 2').tagName).toBe('text');
+    });
+
+    it('Can render type 3 line icon with extra long name as expected', () => {
+        mockGetBBox.mockReturnValue({ width: 50 });
+
+        render(
+            <svg>
+                <LineIcon
+                    lineName={['海珠有轨1号线', 'THZ1']}
+                    foregroundColour={MonoColour.white}
+                    backgroundColour="#000000"
+                />
+            </svg>
+        );
+
+        expect(screen.getByTestId('intBox')).toHaveAttribute('width', '54');
     });
 });

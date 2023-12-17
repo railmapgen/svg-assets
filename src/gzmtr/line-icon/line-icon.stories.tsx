@@ -19,13 +19,15 @@ export const LineIcon: Story = {
     },
     argTypes: {
         lineName: {
-            options: [
-                ['2号线', 'Line 2'],
-                ['18号线', 'Line 18'],
-                ['APM线', 'APM Line'],
-                ['广佛线', 'Guangfo Line'],
-                ['佛山2号线', 'Foshan Line 2'],
-            ],
+            options: ['gz2', 'gz18', 'apm', 'gf', 'fs2', 'thz1'],
+            mapping: {
+                gz2: ['2号线', 'Line 2'],
+                gz18: ['18号线', 'Line 18'],
+                apm: ['APM线', 'APM Line'],
+                gf: ['广佛线', 'Guangfo Line'],
+                fs2: ['佛山2号线', 'Foshan Line 2'],
+                thz1: ['海珠有轨1号线', 'THZ1'],
+            },
             control: { type: 'radio' },
         },
         foregroundColour: {
@@ -34,6 +36,10 @@ export const LineIcon: Story = {
         },
         backgroundColour: {
             control: { type: 'color' },
+        },
+        spanDigit: {
+            options: [true, false],
+            control: { type: 'radio' },
         },
     },
 };
