@@ -14,6 +14,7 @@ export const StationNumber: Story = {
         lineNum: '2',
         stnNum: '01',
         strokeColour: '#00629B',
+        size: 'md',
         textClassName: 'rmg-name__en',
     },
     argTypes: {
@@ -24,8 +25,8 @@ export const StationNumber: Story = {
             options: [true, false],
             control: { type: 'radio' },
         },
-        large: {
-            options: [true, false],
+        size: {
+            options: ['sm', 'md', 'lg'],
             control: { type: 'radio' },
         },
     },

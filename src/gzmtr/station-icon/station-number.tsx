@@ -4,16 +4,16 @@ import StationIcon from './station-icon';
 const TEXT_MAX_WIDTH = 15;
 
 interface StationNumberProps extends SVGProps<SVGGElement> {
-    lineNum: string;
-    stnNum: string;
+    lineNum?: string;
+    stnNum?: string;
     strokeColour: string;
     passed?: boolean;
-    large?: boolean;
+    size?: 'sm' | 'md' | 'lg';
     textClassName?: string;
 }
 
 export default function StationNumber(props: StationNumberProps) {
-    const { lineNum, stnNum, strokeColour, passed, large, textClassName, ...others } = props;
+    const { lineNum, stnNum, strokeColour, passed, size, textClassName, ...others } = props;
 
     const lineNumEl = useRef<SVGTextElement | null>(null);
     const stnNumEl = useRef<SVGTextElement | null>(null);
@@ -28,29 +28,30 @@ export default function StationNumber(props: StationNumberProps) {
 
     const lineNumScale = TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, lineNumBBox.width);
     const stnNumScale =
-        lineNum.length === 2 && stnNum.length === 2
+        lineNum?.length === 2 && stnNum?.length === 2
             ? lineNumScale
             : TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, stnNumBBox.width);
 
+    const scale = size === 'sm' ? '0.7' : size === 'lg' ? '1.4' : 1;
+
     return (
         <g {...others}>
-            <StationIcon stroke={passed ? '#aaa' : strokeColour} large={large} />
-            <g
-                textAnchor="middle"
-                fontSize={13.5}
-                transform={large ? 'scale(1.4)' : ''}
-                fill={passed ? '#aaa' : '#000'}
-            >
-                <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>
-                    <text ref={lineNumEl} className={textClassName} dominantBaseline="central">
-                        {lineNum}
-                    </text>
-                </g>
-                <g transform={`translate(9.25,0)scale(${stnNumScale})`}>
-                    <text ref={stnNumEl} className={textClassName} dominantBaseline="central">
-                        {stnNum}
-                    </text>
-                </g>
+            <g transform={`scale(${scale})`}>
+                <StationIcon stroke={passed ? '#aaa' : strokeColour} filled={!lineNum && !stnNum} />
+                {(lineNum || stnNum) && (
+                    <g textAnchor="middle" fontSize={13.5} fill={passed ? '#aaa' : '#000'}>
+                        <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>
+                            <text ref={lineNumEl} className={textClassName} dominantBaseline="central">
+                                {lineNum}
+                            </text>
+                        </g>
+                        <g transform={`translate(9.25,0)scale(${stnNumScale})`}>
+                            <text ref={stnNumEl} className={textClassName} dominantBaseline="central">
+                                {stnNum}
+                            </text>
+                        </g>
+                    </g>
+                )}
             </g>
         </g>
     );
