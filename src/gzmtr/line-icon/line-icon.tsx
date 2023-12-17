@@ -13,18 +13,18 @@ export interface LineIconProps {
     zhClassName?: string;
     enClassName?: string;
     passed?: boolean;
-    spanDigit?: boolean;
+    spanDigits?: boolean;
 }
 
 export default memo(
     function LineIcon(props: LineIconProps) {
-        const { lineName, foregroundColour, backgroundColour, zhClassName, enClassName, passed, spanDigit } = props;
+        const { lineName, spanDigits } = props;
 
         const type = getType(lineName);
 
         switch (type) {
             case 1:
-                return spanDigit ? <LineIconSpan {...props} /> : <LineIconNumber {...props} />;
+                return spanDigits ? <LineIconSpan {...props} /> : <LineIconNumber {...props} />;
             case 2:
                 return <LineIconSpan {...props} />;
             default:
@@ -38,7 +38,7 @@ export default memo(
         prevProps.zhClassName === nextProps.zhClassName &&
         prevProps.enClassName === nextProps.enClassName &&
         prevProps.passed === nextProps.passed &&
-        prevProps.spanDigit === nextProps.spanDigit
+        prevProps.spanDigits === nextProps.spanDigits
 );
 
 /**

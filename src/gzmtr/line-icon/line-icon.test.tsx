@@ -56,7 +56,7 @@ describe('GZMTR - LineIcon', () => {
                     lineName={['18号线', 'Line 18']}
                     foregroundColour={MonoColour.white}
                     backgroundColour="#000000"
-                    spanDigit={true}
+                    spanDigits={true}
                 />
             </svg>
         );

@@ -16,6 +16,7 @@ export const LineIcon: Story = {
         backgroundColour: '#00629B',
         zhClassName: 'rmg-name__zh',
         enClassName: 'rmg-name__en',
+        spanDigits: true,
     },
     argTypes: {
         lineName: {
@@ -37,7 +38,7 @@ export const LineIcon: Story = {
         backgroundColour: {
             control: { type: 'color' },
         },
-        spanDigit: {
+        spanDigits: {
             options: [true, false],
             control: { type: 'radio' },
         },
