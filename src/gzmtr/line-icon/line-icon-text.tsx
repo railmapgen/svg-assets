@@ -5,7 +5,7 @@ import { MonoColour } from '@railmapgen/rmg-palette-resources';
 import { MAX_TEXT_WIDTH } from './utils';
 
 export default function LineIconText(props: LineIconProps) {
-    const { lineName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
+    const { zhName, enName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
 
     const nameZhEl = useRef<SVGTextElement | null>(null);
     const nameEnEl = useRef<SVGTextElement | null>(null);
@@ -16,7 +16,7 @@ export default function LineIconText(props: LineIconProps) {
     useEffect(() => {
         nameZhEl.current && setNameZhBBox(nameZhEl.current.getBBox());
         nameEnEl.current && setNameEnBBox(nameEnEl.current.getBBox());
-    }, [lineName.toString()]);
+    }, [zhName, enName]);
 
     const nameZhScale = MAX_TEXT_WIDTH / Math.max(MAX_TEXT_WIDTH, nameZhBBox.width);
     const nameEnScale = MAX_TEXT_WIDTH / Math.max(MAX_TEXT_WIDTH, nameEnBBox.width);
@@ -45,7 +45,7 @@ export default function LineIconText(props: LineIconProps) {
                 transform={`translate(0,${transforms.nameZh.y})scale(${nameZhScale})`}
                 dominantBaseline="central"
             >
-                {lineName[0]}
+                {zhName}
             </text>
             <text
                 ref={nameEnEl}
@@ -54,7 +54,7 @@ export default function LineIconText(props: LineIconProps) {
                 transform={`translate(0,${transforms.nameEn.y})scale(${nameEnScale})`}
                 dominantBaseline="middle"
             >
-                {lineName[1]}
+                {enName}
             </text>
         </g>
     );

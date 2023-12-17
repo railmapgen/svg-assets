@@ -15,7 +15,8 @@ describe('GZMTR - LineIcon', () => {
         const { container } = render(
             <svg>
                 <LineIcon
-                    lineName={['18号线', 'Line 18']}
+                    zhName="18号线"
+                    enName="Line 18"
                     foregroundColour={MonoColour.black}
                     backgroundColour="#000000"
                     passed
@@ -36,7 +37,8 @@ describe('GZMTR - LineIcon', () => {
         render(
             <svg>
                 <LineIcon
-                    lineName={['18号线', 'Line 18']}
+                    zhName="18号线"
+                    enName="Line 18"
                     foregroundColour={MonoColour.white}
                     backgroundColour="#000000"
                 />
@@ -53,7 +55,8 @@ describe('GZMTR - LineIcon', () => {
         render(
             <svg>
                 <LineIcon
-                    lineName={['18号线', 'Line 18']}
+                    zhName="18号线"
+                    enName="Line 18"
                     foregroundColour={MonoColour.white}
                     backgroundColour="#000000"
                     spanDigits={true}
@@ -73,7 +76,8 @@ describe('GZMTR - LineIcon', () => {
         render(
             <svg>
                 <LineIcon
-                    lineName={['APM线', 'APM Line']}
+                    zhName="APM线"
+                    enName="APM Line"
                     foregroundColour={MonoColour.white}
                     backgroundColour="#000000"
                 />
@@ -92,7 +96,8 @@ describe('GZMTR - LineIcon', () => {
         render(
             <svg>
                 <LineIcon
-                    lineName={['佛山2号线', 'Foshan Line 2']}
+                    zhName="佛山2号线"
+                    enName="Foshan Line 2"
                     foregroundColour={MonoColour.white}
                     backgroundColour="#000000"
                 />
@@ -109,7 +114,8 @@ describe('GZMTR - LineIcon', () => {
         render(
             <svg>
                 <LineIcon
-                    lineName={['海珠有轨1号线', 'THZ1']}
+                    zhName="海珠有轨1号线"
+                    enName="THZ1"
                     foregroundColour={MonoColour.white}
                     backgroundColour="#000000"
                 />

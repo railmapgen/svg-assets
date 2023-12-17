@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { LineIconProps } from './line-icon';
 import InterchangeBox from './interchange-box';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
-import { MAX_TEXT_WIDTH } from './utils';
+import { getLeadingDigits, MAX_TEXT_WIDTH } from './utils';
 
 export default function LineIconNumber(props: LineIconProps) {
-    const { lineName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
+    const { zhName, enName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
 
-    const digitPart = lineName[0].match(/^(\d+)\D+$/)?.[1] ?? '';
+    const digitPart = getLeadingDigits(zhName) ?? '';
 
     const nameZhEl = useRef<SVGTextElement | null>(null);
     const nameEnEl = useRef<SVGTextElement | null>(null);
@@ -18,7 +18,7 @@ export default function LineIconNumber(props: LineIconProps) {
     useEffect(() => {
         nameZhEl.current && setNameZhBBox(nameZhEl.current.getBBox());
         nameEnEl.current && setNameEnBBox(nameEnEl.current.getBBox());
-    }, [lineName.toString()]);
+    }, [zhName, enName]);
 
     const nameZhScale = MAX_TEXT_WIDTH / Math.max(MAX_TEXT_WIDTH, nameZhBBox.width);
     const nameEnScale = MAX_TEXT_WIDTH / Math.max(MAX_TEXT_WIDTH, nameEnBBox.width);
@@ -51,7 +51,7 @@ export default function LineIconNumber(props: LineIconProps) {
                     {digitPart}
                 </tspan>
                 <tspan dy={-0.7} dominantBaseline="central">
-                    {lineName[0].slice(digitPart.length)}
+                    {zhName.slice(digitPart.length)}
                 </tspan>
             </text>
             <text
@@ -61,7 +61,7 @@ export default function LineIconNumber(props: LineIconProps) {
                 transform={`translate(0,${transforms.nameEn.y})scale(${nameEnScale})`}
                 dominantBaseline="middle"
             >
-                {lineName[1]}
+                {enName}
             </text>
         </g>
     );

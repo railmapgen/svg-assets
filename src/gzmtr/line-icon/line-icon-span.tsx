@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { LineIconProps } from './line-icon';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 import InterchangeBox from './interchange-box';
-import { getCommonStarts, getLeadingDigits, MAX_TEXT_WIDTH, Name } from './utils';
+import { getCommonStarts, getLeadingDigits, MAX_TEXT_WIDTH } from './utils';
 
-const getSpanningPart = (name: Name) => {
-    const leadingDigits = getLeadingDigits(name);
+const getSpanningPart = (zhName: string, enName: string) => {
+    const leadingDigits = getLeadingDigits(zhName);
     if (leadingDigits) {
         return { isDigit: true, spanningPart: leadingDigits };
     }
-    const commonStarts = getCommonStarts(name);
+    const commonStarts = getCommonStarts(zhName, enName);
     if (commonStarts) {
         return { isDigit: false, spanningPart: commonStarts };
     }
@@ -17,15 +17,15 @@ const getSpanningPart = (name: Name) => {
 };
 
 export default function LineIconSpan(props: LineIconProps) {
-    const { lineName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
+    const { zhName, enName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
 
-    const { isDigit, spanningPart } = getSpanningPart(lineName);
+    const { isDigit, spanningPart } = getSpanningPart(zhName, enName);
 
     const wrapperEl = useRef<SVGGElement | null>(null);
     const [bBox, setBBox] = useState({ x: 0, height: 0, width: 0 } as DOMRect);
     useEffect(() => {
         wrapperEl.current && setBBox(wrapperEl.current.getBBox());
-    }, [lineName.toString()]);
+    }, [zhName, enName]);
 
     const scale = MAX_TEXT_WIDTH / Math.max(MAX_TEXT_WIDTH, bBox.width);
     const dx = (-bBox.x - bBox.width / 2) * scale;
@@ -45,7 +45,7 @@ export default function LineIconSpan(props: LineIconProps) {
                         textAnchor="start"
                         dominantBaseline="central"
                     >
-                        {lineName[0].slice(spanningPart.length).trim()}
+                        {zhName.slice(spanningPart.length).trim()}
                     </tspan>
                     <tspan
                         className={enClassName}
@@ -56,7 +56,7 @@ export default function LineIconSpan(props: LineIconProps) {
                         textAnchor="start"
                         dominantBaseline="middle"
                     >
-                        {isDigit ? lineName[1] : lineName[1].slice(spanningPart.length).trim()}
+                        {isDigit ? enName : enName.slice(spanningPart.length).trim()}
                     </tspan>
                 </text>
             </g>
