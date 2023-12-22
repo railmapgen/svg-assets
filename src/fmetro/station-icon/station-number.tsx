@@ -1,5 +1,5 @@
 import StationIcon from './station-icon';
-import GenericStationNumber, { GenericStationNumberProps } from './generic-station-number';
+import GenericStationNumber, { GenericStationNumberProps } from '../../gzmtr/station-icon/generic-station-number';
 
 type StationNumberProps = Omit<GenericStationNumberProps, 'Icon'>;
 
