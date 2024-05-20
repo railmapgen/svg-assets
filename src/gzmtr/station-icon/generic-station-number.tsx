@@ -2,9 +2,11 @@ import { ReactNode, SVGProps, useEffect, useRef, useState } from 'react';
 
 const TEXT_MAX_WIDTH = 15;
 
-export interface StationIconProps {
+export interface StationIconProps extends SVGProps<SVGPathElement> {
     stroke: string;
     filled?: boolean;
+    asOutline?: boolean;
+    padding?: number;
 }
 
 export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
