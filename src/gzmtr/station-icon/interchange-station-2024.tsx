@@ -1,35 +1,45 @@
 import { ICON_HEIGHT, ICON_STROKE_WIDTH } from '../constants';
 import FMetroStationIcon from '../../fmetro/station-icon/station-icon';
-import StationIcon from './station-icon';
+import { FlexibleStationIcon } from './station-icon';
 import FMetroStationNumber from '../../fmetro/station-icon/station-number';
 import StationNumber from './station-number';
+import { useMemo } from 'react';
 
 type Coordinates = [number, number];
 
-export const getTranslates = (size: number): Coordinates[] => {
+export const getTranslates = (size: number, preferVertical?: boolean): Coordinates[] => {
     if (size <= 0) {
         return [];
     }
     if (size === 1) {
         return [[0, 0]];
     }
+
+    const xMultiplier = ICON_HEIGHT + ICON_STROKE_WIDTH / 2;
+    const yMultiplier = ICON_HEIGHT + ICON_STROKE_WIDTH;
+
+    if (size === 2 && preferVertical) {
+        return [
+            [0, -0.5 * yMultiplier],
+            [0, 0.5 * yMultiplier],
+        ];
+    }
     const rows = Math.ceil(size / 2);
     const ys = Array.from(Array(rows).keys()).map(x => (x - (rows - 1) / 2) * (ICON_HEIGHT + ICON_STROKE_WIDTH));
-    const xAbs = ICON_HEIGHT + ICON_STROKE_WIDTH / 2;
     if (size & 1) {
         // odd
         return [[0, ys[0]] as Coordinates].concat(
             ...ys.slice(1).map<Coordinates[]>(y => [
-                [-xAbs, y],
-                [xAbs, y],
+                [-xMultiplier, y],
+                [xMultiplier, y],
             ])
         );
     } else {
         // even
         return ys
             .map<Coordinates[]>(y => [
-                [-xAbs, y],
-                [xAbs, y],
+                [-xMultiplier, y],
+                [xMultiplier, y],
             ])
             .flat();
     }
@@ -45,14 +55,20 @@ interface StationProps {
 export interface InterchangeStation2024Props {
     stations: StationProps[];
     textClassName?: string;
+    // Effective if stations.length === 2
+    preferVertical?: boolean;
 }
 
 const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
-    return style === 'fmetro' ? FMetroStationIcon : StationIcon;
+    return style === 'fmetro' ? FMetroStationIcon : FlexibleStationIcon;
 };
 
-export default function InterchangeStation2024({ stations, textClassName }: InterchangeStation2024Props) {
-    const translates = getTranslates(stations.length);
+export default function InterchangeStation2024({
+    stations,
+    textClassName,
+    preferVertical,
+}: InterchangeStation2024Props) {
+    const translates = useMemo(() => getTranslates(stations.length, preferVertical), [stations.length, preferVertical]);
 
     return (
         <g>

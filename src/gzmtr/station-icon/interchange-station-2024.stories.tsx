@@ -25,7 +25,7 @@ const stationOptions: Record<string, InterchangeStation2024Props['stations']> = 
             stnNum: '01',
         },
         {
-            strokeColour: line2,
+            strokeColour: line22,
             lineNum: '22',
             stnNum: '03',
         },
@@ -38,6 +38,18 @@ const stationOptions: Record<string, InterchangeStation2024Props['stations']> = 
             strokeColour: line7,
             lineNum: '7',
             stnNum: '01',
+        },
+    ],
+    'Hanxi Changlong': [
+        {
+            strokeColour: line3,
+            lineNum: '3',
+            stnNum: '03',
+        },
+        {
+            strokeColour: line7,
+            lineNum: '7',
+            stnNum: '05',
         },
     ],
     'Panyu Square': [
@@ -84,5 +96,9 @@ export const InterchangeStation2024: Story = {
                 type: 'select',
             },
         },
+        preferVertical: {
+            options: [false, true],
+            control: "radio"
+        }
     },
 };

@@ -4,11 +4,14 @@ import { ICON_HEIGHT, ICON_STROKE_WIDTH } from '../constants';
 interface StationIconProps extends SVGProps<SVGPathElement> {
     stroke: string;
     filled?: boolean;
+}
+
+interface FlexibleStationIconProps extends StationIconProps {
     asOutline?: boolean;
     padding?: number;
 }
 
-export default memo(function StationIcon(props: StationIconProps) {
+export const FlexibleStationIcon = memo(function FlexibleStationIcon(props: FlexibleStationIconProps) {
     const { stroke, filled, asOutline, padding = 0, ...others } = props;
 
     // const pathD = 'M0,9.25 V-9.25 H-9.25 a9.25,9.25 0 0,0 0,18.5 h18.5 a9.25,9.25 0 0,0 0,-18.5 H0';
@@ -20,4 +23,8 @@ export default memo(function StationIcon(props: StationIconProps) {
     return (
         <path d={pathD} fill={filled ? stroke : '#fff'} strokeWidth={ICON_STROKE_WIDTH} stroke={stroke} {...others} />
     );
+});
+
+export default memo(function StationIcon(props: StationIconProps) {
+    return <FlexibleStationIcon {...props} />;
 });
