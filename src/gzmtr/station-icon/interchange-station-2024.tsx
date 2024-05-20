@@ -1,6 +1,8 @@
-import { ReactNode } from 'react';
-import GenericStationNumber, { StationIconProps } from './generic-station-number';
 import { ICON_HEIGHT, ICON_STROKE_WIDTH } from '../constants';
+import FMetroStationIcon from '../../fmetro/station-icon/station-icon';
+import StationIcon from './station-icon';
+import FMetroStationNumber from '../../fmetro/station-icon/station-number';
+import StationNumber from './station-number';
 
 type Coordinates = [number, number];
 
@@ -34,56 +36,69 @@ export const getTranslates = (size: number): Coordinates[] => {
 };
 
 interface StationProps {
-    Icon: (props: StationIconProps) => ReactNode;
+    style?: 'gzmtr' | 'fmetro';
     lineNum?: string;
     stnNum?: string;
     strokeColour: string;
 }
 
-interface InterchangeStation2024Props {
+export interface InterchangeStation2024Props {
     stations: StationProps[];
     textClassName?: string;
 }
+
+const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
+    return style === 'fmetro' ? FMetroStationIcon : StationIcon;
+};
 
 export default function InterchangeStation2024({ stations, textClassName }: InterchangeStation2024Props) {
     const translates = getTranslates(stations.length);
 
     return (
         <g>
-            {stations.map(({ Icon }, i) => (
-                <Icon
-                    key={i}
-                    stroke="#aaa"
-                    padding={4}
-                    filled
-                    asOutline
-                    transform={`translate(${translates[i][0]},${translates[i][1]})`}
-                />
-            ))}
-            {stations.map(({ Icon }, i) => (
-                <Icon
-                    key={i}
-                    stroke="white"
-                    padding={1.1}
-                    filled
-                    asOutline
-                    transform={`translate(${translates[i][0]},${translates[i][1]})`}
-                />
-            ))}
+            {stations.map(({ style }, i) => {
+                const IconComponent = getIconComponent(style);
+                return (
+                    <IconComponent
+                        key={i}
+                        stroke="#aaa"
+                        padding={4}
+                        filled
+                        asOutline
+                        transform={`translate(${translates[i][0]},${translates[i][1]})`}
+                    />
+                );
+            })}
+            {stations.map(({ style }, i) => {
+                const IconComponent = getIconComponent(style);
+                return (
+                    <IconComponent
+                        key={i}
+                        stroke="white"
+                        padding={1.1}
+                        filled
+                        asOutline
+                        transform={`translate(${translates[i][0]},${translates[i][1]})`}
+                    />
+                );
+            })}
 
             {/* To cover the grey area between stations. */}
             {stations.length && (
                 <rect fill="white" x={-12} y={translates[0][1]} width={24} height={-translates[0][1] * 2} />
             )}
 
-            {stations.map((props, i) => (
-                <GenericStationNumber
-                    key={i}
-                    transform={`translate(${translates[i][0]},${translates[i][1]})`}
-                    textClassName={textClassName}
-                    {...props}
-                />
-            ))}
+            {stations.map(({ style, ...others }, i) => {
+                const StationNumberComponent = style === 'fmetro' ? FMetroStationNumber : StationNumber;
+                return (
+                    <StationNumberComponent
+                        key={i}
+                        transform={`translate(${translates[i][0]},${translates[i][1]})`}
+                        textClassName={textClassName}
+                        {...others}
+                    />
+                );
+            })}
         </g>
     );
 }
