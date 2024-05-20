@@ -98,7 +98,7 @@ export const InterchangeStation2024: Story = {
         },
         preferVertical: {
             options: [false, true],
-            control: "radio"
-        }
+            control: 'radio',
+        },
     },
 };
