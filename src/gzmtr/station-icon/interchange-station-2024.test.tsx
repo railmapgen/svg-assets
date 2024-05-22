@@ -3,6 +3,11 @@ import { ICON_HEIGHT, ICON_STROKE_WIDTH } from '../constants';
 
 describe('InterchangeStation2024', () => {
     describe('InterchangeStation2024 - translate', () => {
+        const normaliser = ([x, y]: [number, number]): [number, number] => [
+            x / (ICON_HEIGHT + ICON_STROKE_WIDTH / 2),
+            y / (ICON_HEIGHT + ICON_STROKE_WIDTH),
+        ];
+
         it.each([
             { size: 0, expected: [] },
             { size: 1, expected: [[0, 0]] },
@@ -41,13 +46,14 @@ describe('InterchangeStation2024', () => {
                 ],
             },
         ])('Can calculate translate parameters for size $size', ({ size, expected }) => {
-            expect(
-                getTranslates(size).map(([x, y]) => [
-                    // normalised
-                    x / (ICON_HEIGHT + ICON_STROKE_WIDTH / 2),
-                    y / (ICON_HEIGHT + ICON_STROKE_WIDTH),
-                ])
-            ).toEqual(expected);
+            expect(getTranslates(size).map(normaliser)).toEqual(expected);
+        });
+
+        it('Can calculate translate parameters for vertically stacked stations', () => {
+            expect(getTranslates(2, true).map(normaliser)).toEqual([
+                [0, -0.5],
+                [0, 0.5],
+            ]);
         });
     });
 });

@@ -1,6 +1,6 @@
 import { ICON_HEIGHT, ICON_STROKE_WIDTH } from '../constants';
 import FMetroStationIcon from '../../fmetro/station-icon/station-icon';
-import { FlexibleStationIcon } from './station-icon';
+import StationIcon from './station-icon';
 import FMetroStationNumber from '../../fmetro/station-icon/station-number';
 import StationNumber from './station-number';
 import { useMemo } from 'react';
@@ -60,7 +60,7 @@ export interface InterchangeStation2024Props {
 }
 
 const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
-    return style === 'fmetro' ? FMetroStationIcon : FlexibleStationIcon;
+    return style === 'fmetro' ? FMetroStationIcon : StationIcon;
 };
 
 export default function InterchangeStation2024({
@@ -78,9 +78,8 @@ export default function InterchangeStation2024({
                     <IconComponent
                         key={i}
                         stroke="#aaa"
-                        padding={4}
                         filled
-                        asOutline
+                        strokeWidth={ICON_STROKE_WIDTH * 7}
                         transform={`translate(${translates[i][0]},${translates[i][1]})`}
                     />
                 );
@@ -91,9 +90,8 @@ export default function InterchangeStation2024({
                     <IconComponent
                         key={i}
                         stroke="white"
-                        padding={1.1}
                         filled
-                        asOutline
+                        strokeWidth={ICON_STROKE_WIDTH * 2.6}
                         transform={`translate(${translates[i][0]},${translates[i][1]})`}
                     />
                 );

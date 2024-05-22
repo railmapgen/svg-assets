@@ -16,6 +16,7 @@ const line7 = '#97D700';
 const line18 = '#0047BA';
 const line22 = '#CD5228';
 const fsLine2 = '#F5333F';
+const tnh1 = '#5EB3E4';
 
 const stationOptions: Record<string, InterchangeStation2024Props['stations']> = {
     'GZ South': [
@@ -30,6 +31,7 @@ const stationOptions: Record<string, InterchangeStation2024Props['stations']> = 
             stnNum: '03',
         },
         {
+            style: 'fmetro',
             strokeColour: fsLine2,
             lineNum: 'F2',
             stnNum: '27',
@@ -50,6 +52,20 @@ const stationOptions: Record<string, InterchangeStation2024Props['stations']> = 
             strokeColour: line7,
             lineNum: '7',
             stnNum: '05',
+        },
+    ],
+    Linyuexi: [
+        {
+            style: 'fmetro',
+            strokeColour: fsLine2,
+            lineNum: 'F2',
+            stnNum: '25',
+        },
+        {
+            style: 'fmetro',
+            strokeColour: tnh1,
+            lineNum: 'TNH1',
+            stnNum: '14',
         },
     ],
     'Panyu Square': [
