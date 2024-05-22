@@ -116,5 +116,8 @@ export const InterchangeStation2024: Story = {
             options: [false, true],
             control: 'radio',
         },
+        anchorAt: {
+            control: { type: 'range', min: -1, max: 3, step: 1 },
+        },
     },
 };

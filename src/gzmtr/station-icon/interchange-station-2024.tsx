@@ -1,9 +1,9 @@
-import { ICON_HEIGHT, ICON_STROKE_WIDTH } from '../constants';
+import { ICON_FULL_HEIGHT, ICON_FULL_WIDTH, ICON_STROKE_WIDTH } from '../constants';
 import FMetroStationIcon from '../../fmetro/station-icon/station-icon';
 import StationIcon from './station-icon';
 import FMetroStationNumber from '../../fmetro/station-icon/station-number';
 import StationNumber from './station-number';
-import { useMemo } from 'react';
+import { SVGProps, useMemo } from 'react';
 
 type Coordinates = [number, number];
 
@@ -15,8 +15,8 @@ export const getTranslates = (size: number, preferVertical?: boolean): Coordinat
         return [[0, 0]];
     }
 
-    const xMultiplier = ICON_HEIGHT + ICON_STROKE_WIDTH / 2;
-    const yMultiplier = ICON_HEIGHT + ICON_STROKE_WIDTH;
+    const xMultiplier = ICON_FULL_WIDTH;
+    const yMultiplier = ICON_FULL_HEIGHT;
 
     if (size === 2 && preferVertical) {
         return [
@@ -25,21 +25,21 @@ export const getTranslates = (size: number, preferVertical?: boolean): Coordinat
         ];
     }
     const rows = Math.ceil(size / 2);
-    const ys = Array.from(Array(rows).keys()).map(x => (x - (rows - 1) / 2) * (ICON_HEIGHT + ICON_STROKE_WIDTH));
+    const ys = Array.from(Array(rows).keys()).map(x => (x - (rows - 1) / 2) * yMultiplier);
     if (size & 1) {
         // odd
         return [[0, ys[0]] as Coordinates].concat(
             ...ys.slice(1).map<Coordinates[]>(y => [
-                [-xMultiplier, y],
-                [xMultiplier, y],
+                [-0.5 * xMultiplier, y],
+                [0.5 * xMultiplier, y],
             ])
         );
     } else {
         // even
         return ys
             .map<Coordinates[]>(y => [
-                [-xMultiplier, y],
-                [xMultiplier, y],
+                [-0.5 * xMultiplier, y],
+                [0.5 * xMultiplier, y],
             ])
             .flat();
     }
@@ -52,11 +52,13 @@ interface StationProps {
     strokeColour: string;
 }
 
-export interface InterchangeStation2024Props {
+export interface InterchangeStation2024Props extends SVGProps<SVGGElement> {
     stations: StationProps[];
     textClassName?: string;
     // Effective if stations.length === 2
     preferVertical?: boolean;
+    // Index of station as anchor (from 0)
+    anchorAt?: number;
 }
 
 const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
@@ -67,11 +69,25 @@ export default function InterchangeStation2024({
     stations,
     textClassName,
     preferVertical,
+    anchorAt,
+    ...others
 }: InterchangeStation2024Props) {
     const translates = useMemo(() => getTranslates(stations.length, preferVertical), [stations.length, preferVertical]);
 
+    const [groupX, groupY] = useMemo<Coordinates>(() => {
+        if (anchorAt === undefined) {
+            return [0, 0];
+        } else if (anchorAt < 0 || anchorAt >= translates.length) {
+            console.warn(`<InterchangeStation2024/>, anchor index ${anchorAt} is out of bound`);
+            return [0, 0];
+        } else {
+            const [x, y] = translates[anchorAt];
+            return [-x, -y];
+        }
+    }, [translates, anchorAt]);
+
     return (
-        <g>
+        <g transform={`translate(${groupX},${groupY})`} {...others}>
             {stations.map(({ style }, i) => {
                 const IconComponent = getIconComponent(style);
                 return (
