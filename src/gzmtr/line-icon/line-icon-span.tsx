@@ -24,7 +24,7 @@ export default function LineIconSpan(props: LineIconProps) {
     const wrapperEl = useRef<SVGGElement | null>(null);
     const [bBox, setBBox] = useState({ x: 0, height: 0, width: 0 } as DOMRect);
     useEffect(() => {
-        wrapperEl.current && setBBox(wrapperEl.current.getBBox());
+        if (wrapperEl.current) setBBox(wrapperEl.current.getBBox());
     }, [zhName, enName]);
 
     const scale = MAX_TEXT_WIDTH / Math.max(MAX_TEXT_WIDTH, bBox.width);

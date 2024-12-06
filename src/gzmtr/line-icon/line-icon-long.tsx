@@ -11,7 +11,7 @@ export default function LineIconLong(props: LineIconProps) {
     const [bBox, setBBox] = useState({ width: 0 } as DOMRect);
 
     useEffect(() => {
-        wrapperEl.current && setBBox(wrapperEl.current.getBBox());
+        if (wrapperEl.current) setBBox(wrapperEl.current.getBBox());
     }, [zhName, enName]);
 
     const boxWidth = Math.max(45, bBox.width + 4);

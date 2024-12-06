@@ -16,8 +16,8 @@ export default function LineIconNumber(props: LineIconProps) {
     const [nameEnBBox, setNameEnBBox] = useState({ width: 0 } as DOMRect);
 
     useEffect(() => {
-        nameZhEl.current && setNameZhBBox(nameZhEl.current.getBBox());
-        nameEnEl.current && setNameEnBBox(nameEnEl.current.getBBox());
+        if (nameZhEl.current) setNameZhBBox(nameZhEl.current.getBBox());
+        if (nameEnEl.current) setNameEnBBox(nameEnEl.current.getBBox());
     }, [zhName, enName]);
 
     const nameZhScale = MAX_TEXT_WIDTH / Math.max(MAX_TEXT_WIDTH, nameZhBBox.width);
