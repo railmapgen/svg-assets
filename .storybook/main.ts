@@ -12,9 +12,7 @@ const config: StorybookConfig = {
         name: '@storybook/react-vite',
         options: {},
     },
-    docs: {
-        autodocs: 'tag',
-    },
+    docs: {},
     viteFinal: async config => {
         return mergeConfig(config, {
             // Use the same "resolve" configuration as your app
