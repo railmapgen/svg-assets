@@ -112,9 +112,8 @@ export const InterchangeStation2024: Story = {
                 type: 'select',
             },
         },
-        preferVertical: {
-            options: [false, true],
-            control: 'radio',
+        columns: {
+            control: { type: 'range', min: 1, max: 5, step: 1 },
         },
         anchorAt: {
             control: { type: 'range', min: -1, max: 3, step: 1 },

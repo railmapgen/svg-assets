@@ -7,7 +7,12 @@ import { SVGProps, useMemo } from 'react';
 
 type Coordinates = [number, number];
 
-export const getTranslates = (size: number, preferVertical?: boolean): Coordinates[] => {
+// An arithmetic sequence where elements are located symmetrically around zero.
+const getArithmeticSeq = (size: number, multiplier: number) => {
+    return Array.from(Array(size).keys()).map(x => (x - (size - 1) / 2) * multiplier);
+};
+
+export const getTranslates = (size: number, columns: number): Coordinates[] => {
     if (size <= 0) {
         return [];
     }
@@ -15,34 +20,32 @@ export const getTranslates = (size: number, preferVertical?: boolean): Coordinat
         return [[0, 0]];
     }
 
+    // columns cannot greater than size
+    const actualColumns = columns > size ? size : columns;
+
     const xMultiplier = ICON_FULL_WIDTH;
     const yMultiplier = ICON_FULL_HEIGHT;
 
-    if (size === 2 && preferVertical) {
-        return [
-            [0, -0.5 * yMultiplier],
-            [0, 0.5 * yMultiplier],
-        ];
+    const xs = getArithmeticSeq(actualColumns, xMultiplier);
+    const rows = Math.ceil(size / actualColumns);
+    const ys = getArithmeticSeq(rows, yMultiplier);
+
+    const remainder = size % actualColumns;
+    const results: Coordinates[] = [];
+    for (let r = 0; r < rows; r++) {
+        if (remainder === 0 || r !== rows - 1) {
+            for (let c = 0; c < actualColumns; c++) {
+                results.push([xs[c], ys[r]]);
+            }
+        } else {
+            const remainderXs = getArithmeticSeq(remainder, xMultiplier);
+            for (let c = 0; c < remainder; c++) {
+                results.push([remainderXs[c], ys[r]]);
+            }
+        }
     }
-    const rows = Math.ceil(size / 2);
-    const ys = Array.from(Array(rows).keys()).map(x => (x - (rows - 1) / 2) * yMultiplier);
-    if (size & 1) {
-        // odd
-        return [[0, ys[0]] as Coordinates].concat(
-            ...ys.slice(1).map<Coordinates[]>(y => [
-                [-0.5 * xMultiplier, y],
-                [0.5 * xMultiplier, y],
-            ])
-        );
-    } else {
-        // even
-        return ys
-            .map<Coordinates[]>(y => [
-                [-0.5 * xMultiplier, y],
-                [0.5 * xMultiplier, y],
-            ])
-            .flat();
-    }
+
+    return results;
 };
 
 interface StationProps {
@@ -55,8 +58,7 @@ interface StationProps {
 export interface InterchangeStation2024Props extends SVGProps<SVGGElement> {
     stations: StationProps[];
     textClassName?: string;
-    // Effective if stations.length === 2
-    preferVertical?: boolean;
+    columns?: number;
     // Index of station as anchor (from 0)
     anchorAt?: number;
 }
@@ -68,11 +70,11 @@ const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
 export default function InterchangeStation2024({
     stations,
     textClassName,
-    preferVertical,
+    columns = 2,
     anchorAt,
     ...others
 }: InterchangeStation2024Props) {
-    const translates = useMemo(() => getTranslates(stations.length, preferVertical), [stations.length, preferVertical]);
+    const translates = useMemo(() => getTranslates(stations.length, columns), [stations.length, columns]);
 
     const [groupX, groupY] = useMemo<Coordinates>(() => {
         if (anchorAt === undefined) {
