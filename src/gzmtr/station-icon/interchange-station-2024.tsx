@@ -12,7 +12,7 @@ const getArithmeticSeq = (size: number, multiplier: number) => {
     return Array.from(Array(size).keys()).map(x => (x - (size - 1) / 2) * multiplier);
 };
 
-export const getTranslates = (size: number, columns: number): Coordinates[] => {
+export const getTranslates = (size: number, columns: number, topHeavy?: boolean): Coordinates[] => {
     if (size <= 0) {
         return [];
     }
@@ -33,7 +33,8 @@ export const getTranslates = (size: number, columns: number): Coordinates[] => {
     const remainder = size % actualColumns;
     const results: Coordinates[] = [];
     for (let r = 0; r < rows; r++) {
-        if (remainder === 0 || r !== rows - 1) {
+        const shortRowIndex = topHeavy ? rows - 1 : 0;
+        if (remainder === 0 || r !== shortRowIndex) {
             for (let c = 0; c < actualColumns; c++) {
                 results.push([xs[c], ys[r]]);
             }
@@ -59,6 +60,8 @@ export interface InterchangeStation2024Props extends SVGProps<SVGGElement> {
     stations: StationProps[];
     textClassName?: string;
     columns?: number;
+    // Default is pyramid. If bottomHeavy == true, it's reverse pyramid style.
+    topHeavy?: boolean;
     // Index of station as anchor (from 0)
     anchorAt?: number;
 }
@@ -71,10 +74,14 @@ export default function InterchangeStation2024({
     stations,
     textClassName,
     columns = 2,
+    topHeavy,
     anchorAt,
     ...others
 }: InterchangeStation2024Props) {
-    const translates = useMemo(() => getTranslates(stations.length, columns), [stations.length, columns]);
+    const translates = useMemo(
+        () => getTranslates(stations.length, columns, topHeavy),
+        [stations.length, columns, topHeavy]
+    );
 
     const [groupX, groupY] = useMemo<Coordinates>(() => {
         if (anchorAt === undefined) {

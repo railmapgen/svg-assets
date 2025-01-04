@@ -46,6 +46,16 @@ describe('InterchangeStation2024', () => {
                 size: 3,
                 columns: 2,
                 expected: [
+                    [0, -0.5],
+                    [-0.5, 0.5],
+                    [0.5, 0.5],
+                ],
+            },
+            {
+                size: 3,
+                columns: 2,
+                topHeavy: true,
+                expected: [
                     [-0.5, -0.5],
                     [0.5, -0.5],
                     [0, 0.5],
@@ -65,6 +75,18 @@ describe('InterchangeStation2024', () => {
                 size: 5,
                 columns: 2,
                 expected: [
+                    [0, -1],
+                    [-0.5, 0],
+                    [0.5, 0],
+                    [-0.5, 1],
+                    [0.5, 1],
+                ],
+            },
+            {
+                size: 5,
+                columns: 2,
+                topHeavy: true,
+                expected: [
                     [-0.5, -1],
                     [0.5, -1],
                     [-0.5, 0],
@@ -76,11 +98,11 @@ describe('InterchangeStation2024', () => {
                 size: 5,
                 columns: 3,
                 expected: [
-                    [-1, -0.5],
-                    [0, -0.5],
-                    [1, -0.5],
-                    [-0.5, 0.5],
-                    [0.5, 0.5],
+                    [-0.5, -0.5],
+                    [0.5, -0.5],
+                    [-1, 0.5],
+                    [0, 0.5],
+                    [1, 0.5],
                 ],
             },
             {
@@ -94,8 +116,11 @@ describe('InterchangeStation2024', () => {
                     [2, 0],
                 ],
             },
-        ])('Can calculate translate parameters for size $size and columns $columns', ({ size, columns, expected }) => {
-            expect(getTranslates(size, columns).map(normaliser)).toEqual(expected);
-        });
+        ])(
+            'Can calculate translate parameters for size $size, columns $columns, topHeavy = $topHeavy',
+            ({ size, columns, topHeavy, expected }) => {
+                expect(getTranslates(size, columns, topHeavy).map(normaliser)).toEqual(expected);
+            }
+        );
     });
 });

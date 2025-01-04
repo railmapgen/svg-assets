@@ -115,6 +115,10 @@ export const InterchangeStation2024: Story = {
         columns: {
             control: { type: 'range', min: 1, max: 5, step: 1 },
         },
+        topHeavy: {
+            options: [true, false],
+            control: { type: 'radio' },
+        },
         anchorAt: {
             control: { type: 'range', min: -1, max: 3, step: 1 },
         },
