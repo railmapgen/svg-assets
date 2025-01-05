@@ -13,6 +13,8 @@ type Story = StoryObj<typeof InterchangeStation2024Component>;
 const line2 = '#00629B';
 const line3 = '#ECA154';
 const line7 = '#97D700';
+const line8 = '#008C95';
+const line11 = '#ffb00a';
 const line18 = '#0047BA';
 const line22 = '#CD5228';
 const fsLine2 = '#F5333F';
@@ -85,15 +87,15 @@ const stationOptions: Record<string, InterchangeStation2024Props['stations']> = 
             stnNum: '03',
         },
     ],
-    Shibi: [
+    Pazhou: [
         {
-            strokeColour: line2,
-            lineNum: '2',
-            stnNum: '02',
+            strokeColour: line8,
+            lineNum: '8',
+            stnNum: '27',
         },
         {
-            strokeColour: line7,
-            lineNum: '7',
+            strokeColour: line11,
+            lineNum: '11',
             stnNum: '02',
         },
     ],
@@ -121,6 +123,10 @@ export const InterchangeStation2024: Story = {
         },
         anchorAt: {
             control: { type: 'range', min: -1, max: 3, step: 1 },
+        },
+        osiPosition: {
+            options: ['left', 'right'],
+            control: { type: 'radio' },
         },
     },
 };

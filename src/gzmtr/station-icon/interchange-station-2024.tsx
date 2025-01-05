@@ -1,9 +1,10 @@
-import { ICON_FULL_HEIGHT, ICON_FULL_WIDTH, ICON_STROKE_WIDTH } from '../constants';
+import { ICON_FULL_HEIGHT, ICON_FULL_WIDTH, ICON_STROKE_WIDTH, Position } from '../constants';
 import FMetroStationIcon from '../../fmetro/station-icon/station-icon';
 import StationIcon from './station-icon';
 import FMetroStationNumber from '../../fmetro/station-icon/station-number';
 import StationNumber from './station-number';
 import { SVGProps, useMemo } from 'react';
+import OSILink from './osi-link';
 
 type Coordinates = [number, number];
 
@@ -60,10 +61,12 @@ export interface InterchangeStation2024Props extends SVGProps<SVGGElement> {
     stations: StationProps[];
     textClassName?: string;
     columns?: number;
-    // Default is pyramid. If bottomHeavy == true, it's reverse pyramid style.
+    // Default is pyramid. If bottomHeavy === true, it's reverse pyramid style.
     topHeavy?: boolean;
     // Index of station as anchor (from 0)
     anchorAt?: number;
+    // isOSI only takes effect if stations.length === 2 and columns === 1
+    osiPosition?: Position;
 }
 
 const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
@@ -76,6 +79,7 @@ export default function InterchangeStation2024({
     columns = 2,
     topHeavy,
     anchorAt,
+    osiPosition,
     ...others
 }: InterchangeStation2024Props) {
     const translates = useMemo(
@@ -95,6 +99,8 @@ export default function InterchangeStation2024({
         }
     }, [translates, anchorAt]);
 
+    const showOSILink = stations.length === 2 && columns === 1 && !!osiPosition;
+
     return (
         <g transform={`translate(${groupX},${groupY})`} {...others}>
             {stations.map(({ style }, i) => {
@@ -109,6 +115,15 @@ export default function InterchangeStation2024({
                     />
                 );
             })}
+            {showOSILink && (
+                <OSILink
+                    position={osiPosition}
+                    r={ICON_FULL_WIDTH / 2.9}
+                    strokeWidth={ICON_STROKE_WIDTH * 2.2}
+                    strokeDasharray={undefined}
+                />
+            )}
+
             {stations.map(({ style }, i) => {
                 const IconComponent = getIconComponent(style);
                 return (
@@ -121,6 +136,8 @@ export default function InterchangeStation2024({
                     />
                 );
             })}
+
+            {showOSILink && <OSILink position={osiPosition} />}
 
             {/* To cover the grey area between stations. */}
             {stations.length && (

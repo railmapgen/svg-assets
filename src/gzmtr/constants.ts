@@ -5,3 +5,5 @@ export const ICON_HEIGHT = 18.5;
 export const ICON_FULL_HEIGHT = ICON_HEIGHT + ICON_STROKE_WIDTH;
 // GZMTR station icon full width (including stroke width)
 export const ICON_FULL_WIDTH = ICON_HEIGHT * 2 + ICON_STROKE_WIDTH;
+
+export type Position = 'left' | 'right';
