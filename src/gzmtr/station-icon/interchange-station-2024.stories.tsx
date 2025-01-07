@@ -1,10 +1,43 @@
-import InterchangeStation2024Component, { InterchangeStation2024Props } from './interchange-station-2024';
+import InterchangeStation2024Component, {
+    Coordinates,
+    InterchangeStation2024Handle,
+    InterchangeStation2024Props,
+} from './interchange-station-2024';
 import '../../index.css';
 import { StoryObj } from '@storybook/react';
+import { useEffect, useRef, useState } from 'react';
+
+const Demo = (props: InterchangeStation2024Props) => {
+    const [coordinates, setCoordinates] = useState<Coordinates[]>([]);
+
+    const ref = useRef<InterchangeStation2024Handle>(null);
+
+    useEffect(() => {
+        if (ref.current) {
+            setCoordinates(ref.current.getCoordinates());
+        }
+    }, [ref.current, props.stations, props.columns, props.topHeavy]);
+
+    return (
+        <>
+            <InterchangeStation2024Component {...props} ref={ref} />
+            <g transform="translate(40,40)">
+                <rect height={60} width={60} fill="white" />
+                <text fontSize={10}>
+                    {coordinates.map((coord, i) => (
+                        <tspan x={0} dy={10} key={i}>
+                            ({coord.join(', ')})
+                        </tspan>
+                    ))}
+                </text>
+            </g>
+        </>
+    );
+};
 
 export default {
     title: 'GZMTR/Interchange Station 2024',
-    component: InterchangeStation2024Component,
+    component: Demo,
     tags: ['autodocs'],
 };
 
@@ -20,30 +53,32 @@ const line22 = '#CD5228';
 const fsLine2 = '#F5333F';
 const tnh1 = '#5EB3E4';
 
+const GZSouth: InterchangeStation2024Props['stations'] = [
+    {
+        strokeColour: line2,
+        lineNum: '2',
+        stnNum: '01',
+    },
+    {
+        strokeColour: line22,
+        lineNum: '22',
+        stnNum: '03',
+    },
+    {
+        style: 'fmetro',
+        strokeColour: fsLine2,
+        lineNum: 'F2',
+        stnNum: '27',
+    },
+    {
+        strokeColour: line7,
+        lineNum: '7',
+        stnNum: '01',
+    },
+];
+
 const stationOptions: Record<string, InterchangeStation2024Props['stations']> = {
-    'GZ South': [
-        {
-            strokeColour: line2,
-            lineNum: '2',
-            stnNum: '01',
-        },
-        {
-            strokeColour: line22,
-            lineNum: '22',
-            stnNum: '03',
-        },
-        {
-            style: 'fmetro',
-            strokeColour: fsLine2,
-            lineNum: 'F2',
-            stnNum: '27',
-        },
-        {
-            strokeColour: line7,
-            lineNum: '7',
-            stnNum: '01',
-        },
-    ],
+    'GZ South': GZSouth,
     'Hanxi Changlong': [
         {
             strokeColour: line3,

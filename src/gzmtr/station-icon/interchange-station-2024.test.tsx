@@ -1,5 +1,11 @@
-import { getTranslates } from './interchange-station-2024';
+import InterchangeStation2024, { getTranslates, InterchangeStation2024Handle } from './interchange-station-2024';
 import { ICON_FULL_HEIGHT, ICON_FULL_WIDTH } from '../constants';
+import { render } from '@testing-library/react';
+import { vi } from 'vitest';
+import { createRef } from 'react';
+
+const mockGetBBox = vi.fn();
+(SVGElement.prototype as any).getBBox = mockGetBBox;
 
 describe('InterchangeStation2024', () => {
     describe('InterchangeStation2024 - translate', () => {
@@ -122,5 +128,35 @@ describe('InterchangeStation2024', () => {
                 expect(getTranslates(size, columns, topHeavy).map(normaliser)).toEqual(expected);
             }
         );
+    });
+
+    describe('InterchangeStation2024 - handle', () => {
+        it('Can forward ref and get imperative handle', () => {
+            mockGetBBox.mockReturnValue({ width: 14 });
+
+            const ref = createRef<InterchangeStation2024Handle>();
+            render(
+                <svg>
+                    <InterchangeStation2024
+                        ref={ref}
+                        stations={[
+                            {
+                                strokeColour: '#008C95',
+                                lineNum: '8',
+                                stnNum: '27',
+                            },
+                            {
+                                strokeColour: '#ffb00a',
+                                lineNum: '11',
+                                stnNum: '02',
+                            },
+                        ]}
+                    />
+                </svg>
+            );
+
+            expect(ref.current?.getCoordinates()).toHaveLength(2);
+            expect(ref.current?.target?.querySelectorAll('path').length).toBeGreaterThan(0);
+        });
     });
 });
