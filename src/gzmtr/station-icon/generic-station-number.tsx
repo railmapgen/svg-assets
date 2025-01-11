@@ -1,5 +1,5 @@
 import { ExoticComponent, forwardRef, SVGProps, useContext, useEffect, useRef, useState } from 'react';
-import GZMTRContext from '../context/gzmtr-context';
+import SvgAssetsContext from '../../utils/context/svg-assets-context';
 
 const TEXT_MAX_WIDTH = 15;
 
@@ -22,7 +22,7 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
     function GenericStationNumber(props, ref) {
         const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, ...others } = props;
 
-        const { updateId } = useContext(GZMTRContext);
+        const { updateId } = useContext(SvgAssetsContext);
 
         const lineNumEl = useRef<SVGTextElement | null>(null);
         const stnNumEl = useRef<SVGTextElement | null>(null);

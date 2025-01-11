@@ -6,13 +6,13 @@ import InterchangeStation2024Component, {
 import '../../index.css';
 import { StoryObj } from '@storybook/react';
 import { useContext, useEffect, useRef, useState } from 'react';
-import GZMTRContextProvider from '../context/gzmtr-context-provider';
-import GZMTRContext from '../context/gzmtr-context';
+import SvgAssetsContextProvider from '../../utils/context/svg-assets-context-provider';
+import SvgAssetsContext from '../../utils/context/svg-assets-context';
 
 const Demo = (props: InterchangeStation2024Props) => {
     const [coordinates, setCoordinates] = useState<Coordinates[]>([]);
 
-    const { update } = useContext(GZMTRContext);
+    const { update } = useContext(SvgAssetsContext);
     const ref = useRef<InterchangeStation2024Handle>(null);
 
     useEffect(() => {
@@ -45,9 +45,9 @@ const Demo = (props: InterchangeStation2024Props) => {
 
 const WrappedDemo = (props: InterchangeStation2024Props) => {
     return (
-        <GZMTRContextProvider>
+        <SvgAssetsContextProvider>
             <Demo {...props} />
-        </GZMTRContextProvider>
+        </SvgAssetsContextProvider>
     );
 };
 

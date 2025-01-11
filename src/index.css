@@ -6,6 +6,14 @@
     font-family: Arial, sans-serif;
 }
 
+.rmg-name__serif {
+    font-family: serif;
+}
+
+.rmg-name__mono {
+    font-family: monospace;
+}
+
 .rmp-name__zh {
     font-family: Arial, SimHei, STHeitiSC-Medium, PingFangSC-Regular, sans-serif;
 }

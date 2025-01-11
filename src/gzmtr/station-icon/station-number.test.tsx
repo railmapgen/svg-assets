@@ -1,9 +1,9 @@
 import StationNumber from './station-number';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import GZMTRContextProvider from '../context/gzmtr-context-provider';
+import SvgAssetsContextProvider from '../../utils/context/svg-assets-context-provider';
 import { useContext } from 'react';
-import GZMTRContext from '../context/gzmtr-context';
+import SvgAssetsContext from '../../utils/context/svg-assets-context';
 
 const getScaleFromTransform = (transformAttr?: string | null) => {
     return transformAttr?.match(/scale\(([\d.]+)\)/)?.[1];
@@ -53,7 +53,7 @@ describe('GZMTR - StationNumber', () => {
         mockGetBBox.mockReturnValue({ width: 10 });
 
         const TestComponent = () => {
-            const { update } = useContext(GZMTRContext);
+            const { update } = useContext(SvgAssetsContext);
             return (
                 <div>
                     <button onClick={update}>Update</button>
@@ -64,7 +64,7 @@ describe('GZMTR - StationNumber', () => {
             );
         };
 
-        render(<TestComponent />, { wrapper: GZMTRContextProvider });
+        render(<TestComponent />, { wrapper: SvgAssetsContextProvider });
         expect(mockGetBBox).toBeCalledTimes(2);
 
         // force update
