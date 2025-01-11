@@ -60,6 +60,7 @@ interface StationProps {
 export type InterchangeStation2024Handle = {
     target: SVGGElement | null;
     getCoordinates: () => Coordinates[];
+    getTranslate: () => Coordinates;
 };
 
 export interface InterchangeStation2024Props extends SVGProps<SVGGElement> {
@@ -106,6 +107,7 @@ const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, Intercha
             ref,
             () => ({
                 getCoordinates: () => translates,
+                getTranslate: () => [groupX, groupY],
                 target: gEl.current,
             }),
             [translates, gEl.current]
