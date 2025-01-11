@@ -5,11 +5,14 @@ import InterchangeStation2024Component, {
 } from './interchange-station-2024';
 import '../../index.css';
 import { StoryObj } from '@storybook/react';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import GZMTRContextProvider from '../context/gzmtr-context-provider';
+import GZMTRContext from '../context/gzmtr-context';
 
 const Demo = (props: InterchangeStation2024Props) => {
     const [coordinates, setCoordinates] = useState<Coordinates[]>([]);
 
+    const { update } = useContext(GZMTRContext);
     const ref = useRef<InterchangeStation2024Handle>(null);
 
     useEffect(() => {
@@ -17,6 +20,11 @@ const Demo = (props: InterchangeStation2024Props) => {
             setCoordinates(ref.current.getCoordinates());
         }
     }, [ref.current, props.stations, props.columns, props.topHeavy]);
+
+    useEffect(() => {
+        (window as any).updateGZMTR = update;
+        (window as any).ref = ref.current;
+    }, [update, ref.current]);
 
     return (
         <>
@@ -35,10 +43,17 @@ const Demo = (props: InterchangeStation2024Props) => {
     );
 };
 
+const WrappedDemo = (props: InterchangeStation2024Props) => {
+    return (
+        <GZMTRContextProvider>
+            <Demo {...props} />
+        </GZMTRContextProvider>
+    );
+};
+
 export default {
     title: 'GZMTR/Interchange Station 2024',
-    component: Demo,
-    tags: ['autodocs'],
+    component: WrappedDemo,
 };
 
 type Story = StoryObj<typeof InterchangeStation2024Component>;

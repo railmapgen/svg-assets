@@ -1,6 +1,9 @@
 import StationNumber from './station-number';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
+import GZMTRContextProvider from '../context/gzmtr-context-provider';
+import { useContext } from 'react';
+import GZMTRContext from '../context/gzmtr-context';
 
 const getScaleFromTransform = (transformAttr?: string | null) => {
     return transformAttr?.match(/scale\(([\d.]+)\)/)?.[1];
@@ -10,6 +13,10 @@ const mockGetBBox = vi.fn();
 (SVGElement.prototype as any).getBBox = mockGetBBox;
 
 describe('GZMTR - StationNumber', () => {
+    beforeEach(() => {
+        vi.resetAllMocks();
+    });
+
     it('Can apply same scale to both line and stn numbers when both have char length 2', async () => {
         mockGetBBox.mockReturnValueOnce({ width: 20 }); // mock line num bbox
         mockGetBBox.mockReturnValueOnce({ width: 14 }); // mock stn num bbox
@@ -40,5 +47,28 @@ describe('GZMTR - StationNumber', () => {
 
         const stnNumScale = getScaleFromTransform(screen.getByText('01-6').closest('g')?.getAttribute('transform'));
         expect(stnNumScale).toBe((15 / 20).toString());
+    });
+
+    it('Can force update station number sizing', async () => {
+        mockGetBBox.mockReturnValue({ width: 10 });
+
+        const TestComponent = () => {
+            const { update } = useContext(GZMTRContext);
+            return (
+                <div>
+                    <button onClick={update}>Update</button>
+                    <svg>
+                        <StationNumber lineNum="7" stnNum="01-6" strokeColour="red" />
+                    </svg>
+                </div>
+            );
+        };
+
+        render(<TestComponent />, { wrapper: GZMTRContextProvider });
+        expect(mockGetBBox).toBeCalledTimes(2);
+
+        // force update
+        fireEvent.click(screen.getByRole('button'));
+        expect(mockGetBBox).toBeCalledTimes(4);
     });
 });

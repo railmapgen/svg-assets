@@ -3,7 +3,7 @@ import FMetroStationIcon from '../../fmetro/station-icon/station-icon';
 import StationIcon from './station-icon';
 import FMetroStationNumber from '../../fmetro/station-icon/station-number';
 import StationNumber from './station-number';
-import { forwardRef, SVGProps, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, SVGProps, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import OSILink from './osi-link';
 
 export type Coordinates = [number, number];
@@ -59,6 +59,7 @@ interface StationProps {
 
 export type InterchangeStation2024Handle = {
     target: SVGGElement | null;
+    children: (SVGGElement | null)[];
     getCoordinates: () => Coordinates[];
     getTranslate: () => Coordinates;
 };
@@ -102,15 +103,21 @@ const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, Intercha
         }, [translates, anchorAt]);
 
         const gEl = useRef<SVGGElement>(null);
+        const stationNumberRefs = useRef<(SVGGElement | null)[]>([]);
+
+        useEffect(() => {
+            stationNumberRefs.current = stationNumberRefs.current.slice(0, stations.length);
+        }, [stations.length]);
 
         useImperativeHandle(
             ref,
             () => ({
+                target: gEl.current,
+                children: stationNumberRefs.current,
                 getCoordinates: () => translates,
                 getTranslate: () => [groupX, groupY],
-                target: gEl.current,
             }),
-            [translates, gEl.current]
+            [translates, groupX, groupY, gEl.current, stationNumberRefs.current]
         );
 
         const showOSILink = stations.length === 2 && columns === 1 && !!osiPosition;
@@ -162,6 +169,7 @@ const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, Intercha
                     return (
                         <StationNumberComponent
                             key={i}
+                            ref={el => (stationNumberRefs.current[i] = el)}
                             transform={`translate(${translates[i][0]},${translates[i][1]})`}
                             textClassName={textClassName}
                             {...others}

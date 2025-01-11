@@ -1,4 +1,5 @@
-import { ExoticComponent, SVGProps, useEffect, useRef, useState } from 'react';
+import { ExoticComponent, forwardRef, SVGProps, useContext, useEffect, useRef, useState } from 'react';
+import GZMTRContext from '../context/gzmtr-context';
 
 const TEXT_MAX_WIDTH = 15;
 
@@ -17,47 +18,53 @@ export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
     textClassName?: string;
 }
 
-export default function GenericStationNumber(props: GenericStationNumberProps) {
-    const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, ...others } = props;
+const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
+    function GenericStationNumber(props, ref) {
+        const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, ...others } = props;
 
-    const lineNumEl = useRef<SVGTextElement | null>(null);
-    const stnNumEl = useRef<SVGTextElement | null>(null);
+        const { updateId } = useContext(GZMTRContext);
 
-    const [lineNumBBox, setLineNumBBox] = useState({ width: 0 } as DOMRect);
-    const [stnNumBBox, setStnNumBBox] = useState({ width: 0 } as DOMRect);
+        const lineNumEl = useRef<SVGTextElement | null>(null);
+        const stnNumEl = useRef<SVGTextElement | null>(null);
 
-    useEffect(() => {
-        if (lineNumEl.current) setLineNumBBox(lineNumEl.current.getBBox());
-        if (stnNumEl.current) setStnNumBBox(stnNumEl.current.getBBox());
-    }, [lineNum, stnNum]);
+        const [lineNumBBox, setLineNumBBox] = useState({ width: 0 } as DOMRect);
+        const [stnNumBBox, setStnNumBBox] = useState({ width: 0 } as DOMRect);
 
-    const lineNumScale = TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, lineNumBBox.width);
-    const stnNumScale =
-        lineNum?.length === 2 && stnNum?.length === 2
-            ? lineNumScale
-            : TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, stnNumBBox.width);
+        useEffect(() => {
+            if (lineNumEl.current) setLineNumBBox(lineNumEl.current.getBBox());
+            if (stnNumEl.current) setStnNumBBox(stnNumEl.current.getBBox());
+        }, [lineNum, stnNum, updateId]);
 
-    const scale = size === 'sm' ? '0.7' : size === 'lg' ? '1.4' : 1;
+        const lineNumScale = TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, lineNumBBox.width);
+        const stnNumScale =
+            lineNum?.length === 2 && stnNum?.length === 2
+                ? lineNumScale
+                : TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, stnNumBBox.width);
 
-    return (
-        <g {...others}>
-            <g transform={`scale(${scale})`}>
-                <Icon stroke={passed ? '#aaa' : strokeColour} filled={!lineNum && !stnNum} />
-                {(lineNum || stnNum) && (
-                    <g textAnchor="middle" fontSize={13.5} fill={passed ? '#aaa' : '#000'}>
-                        <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>
-                            <text ref={lineNumEl} className={textClassName} dominantBaseline="central" x={0.5}>
-                                {lineNum}
-                            </text>
+        const scale = size === 'sm' ? '0.7' : size === 'lg' ? '1.4' : 1;
+
+        return (
+            <g ref={ref} {...others}>
+                <g transform={`scale(${scale})`}>
+                    <Icon stroke={passed ? '#aaa' : strokeColour} filled={!lineNum && !stnNum} />
+                    {(lineNum || stnNum) && (
+                        <g textAnchor="middle" fontSize={13.5} fill={passed ? '#aaa' : '#000'}>
+                            <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>
+                                <text ref={lineNumEl} className={textClassName} dominantBaseline="central" x={0.5}>
+                                    {lineNum}
+                                </text>
+                            </g>
+                            <g transform={`translate(9.25,0)scale(${stnNumScale})`}>
+                                <text ref={stnNumEl} className={textClassName} dominantBaseline="central">
+                                    {stnNum}
+                                </text>
+                            </g>
                         </g>
-                        <g transform={`translate(9.25,0)scale(${stnNumScale})`}>
-                            <text ref={stnNumEl} className={textClassName} dominantBaseline="central">
-                                {stnNum}
-                            </text>
-                        </g>
-                    </g>
-                )}
+                    )}
+                </g>
             </g>
-        </g>
-    );
-}
+        );
+    }
+);
+
+export default GenericStationNumber;
