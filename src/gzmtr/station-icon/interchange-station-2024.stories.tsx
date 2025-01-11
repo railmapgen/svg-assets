@@ -22,7 +22,7 @@ const Demo = (props: InterchangeStation2024Props) => {
     }, [ref.current, props.stations, props.columns, props.topHeavy]);
 
     useEffect(() => {
-        (window as any).updateGZMTR = update;
+        (window as any).update = update;
         (window as any).ref = ref.current;
     }, [update, ref.current]);
 
