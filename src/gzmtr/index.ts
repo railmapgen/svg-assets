@@ -8,6 +8,7 @@ import InterchangeStation2024, {
     type InterchangeStation2024Handle,
 } from './station-icon/interchange-station-2024';
 import StationNumber from './station-icon/station-number';
+import MidpointStation from './midpoint/midpoint-station';
 
 export {
     LineIcon,
@@ -15,6 +16,7 @@ export {
     InterchangeStation2024,
     type Coordinates,
     type InterchangeStation2024Handle,
+    MidpointStation,
     AirportIcon,
     IntercityIcon,
     RailwayIcon,
