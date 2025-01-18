@@ -17,7 +17,17 @@ const getSpanningPart = (zhName: string, enName: string) => {
 };
 
 export default function LineIconSpan(props: LineIconProps) {
-    const { zhName, enName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
+    const {
+        zhName,
+        enName,
+        foregroundColour,
+        backgroundColour,
+        zhClassName,
+        enClassName,
+        passed,
+        children,
+        ...others
+    } = props;
 
     const { isDigit, spanningPart } = getSpanningPart(zhName, enName);
 
@@ -32,7 +42,7 @@ export default function LineIconSpan(props: LineIconProps) {
     const dy = (bBox.height * (1 - scale)) / 2;
 
     return (
-        <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour}>
+        <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
             <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
             <g ref={wrapperEl} transform={`translate(${dx},${dy})scale(${scale})`}>
                 <text className={zhClassName} fontSize={21} x={-1} y={12} textAnchor="end" dominantBaseline="central">
@@ -60,6 +70,8 @@ export default function LineIconSpan(props: LineIconProps) {
                     </tspan>
                 </text>
             </g>
+
+            {children}
         </g>
     );
 }

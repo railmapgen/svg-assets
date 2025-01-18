@@ -86,7 +86,7 @@ const OSI_BORDER_WIDTH = ICON_STROKE_WIDTH * 2.2;
 
 const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, InterchangeStation2024Props>(
     function InterchangeStation2024(
-        { stations, textClassName, columns = 2, topHeavy, anchorAt, osiPosition, ...others },
+        { stations, textClassName, columns = 2, topHeavy, anchorAt, osiPosition, children, ...others },
         ref
     ) {
         const translates = useMemo(
@@ -203,6 +203,8 @@ const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, Intercha
                         />
                     );
                 })}
+
+                {children}
             </g>
         );
     }

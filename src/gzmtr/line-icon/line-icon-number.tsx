@@ -5,7 +5,17 @@ import { MonoColour } from '@railmapgen/rmg-palette-resources';
 import { getLeadingDigits, MAX_TEXT_WIDTH } from './utils';
 
 export default function LineIconNumber(props: LineIconProps) {
-    const { zhName, enName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
+    const {
+        zhName,
+        enName,
+        foregroundColour,
+        backgroundColour,
+        zhClassName,
+        enClassName,
+        passed,
+        children,
+        ...others
+    } = props;
 
     const digitPart = getLeadingDigits(zhName) ?? '';
 
@@ -38,7 +48,7 @@ export default function LineIconNumber(props: LineIconProps) {
     };
 
     return (
-        <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour}>
+        <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
             <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
             <text
                 ref={nameZhEl}
@@ -63,6 +73,8 @@ export default function LineIconNumber(props: LineIconProps) {
             >
                 {enName}
             </text>
+
+            {children}
         </g>
     );
 }

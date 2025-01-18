@@ -20,7 +20,7 @@ export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
 
 const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
     function GenericStationNumber(props, ref) {
-        const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, ...others } = props;
+        const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, children, ...others } = props;
 
         const { updateId } = useContext(SvgAssetsContext);
 
@@ -62,6 +62,8 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
                         </g>
                     )}
                 </g>
+
+                {children}
             </g>
         );
     }

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, SVGProps } from 'react';
 import LineIconSpan from './line-icon-span';
 import { ColourHex, MonoColour } from '@railmapgen/rmg-palette-resources';
 import LineIconNumber from './line-icon-number';
@@ -6,7 +6,7 @@ import LineIconLong from './line-icon-long';
 import LineIconText from './line-icon-text';
 import { getCommonStarts, getLeadingDigits } from './utils';
 
-export interface LineIconProps {
+export interface LineIconProps extends SVGProps<SVGGElement> {
     zhName: string;
     enName: string;
     foregroundColour: MonoColour;

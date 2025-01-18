@@ -5,7 +5,17 @@ import { MonoColour } from '@railmapgen/rmg-palette-resources';
 import { MAX_TEXT_WIDTH } from './utils';
 
 export default function LineIconText(props: LineIconProps) {
-    const { zhName, enName, foregroundColour, backgroundColour, zhClassName, enClassName, passed } = props;
+    const {
+        zhName,
+        enName,
+        foregroundColour,
+        backgroundColour,
+        zhClassName,
+        enClassName,
+        passed,
+        children,
+        ...others
+    } = props;
 
     const nameZhEl = useRef<SVGTextElement | null>(null);
     const nameEnEl = useRef<SVGTextElement | null>(null);
@@ -36,7 +46,7 @@ export default function LineIconText(props: LineIconProps) {
     };
 
     return (
-        <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour}>
+        <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
             <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
             <text
                 ref={nameZhEl}
@@ -56,6 +66,8 @@ export default function LineIconText(props: LineIconProps) {
             >
                 {enName}
             </text>
+
+            {children}
         </g>
     );
 }
