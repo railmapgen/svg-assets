@@ -61,6 +61,7 @@ export type InterchangeStation2024Handle = {
     target: SVGGElement | null;
     children: (SVGGElement | null)[];
     getCoordinates: () => Coordinates[];
+    getCorrectedBBox: () => SVGRect;
     getTranslate: () => Coordinates;
 };
 
@@ -79,6 +80,9 @@ export interface InterchangeStation2024Props extends SVGProps<SVGGElement> {
 const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
     return style === 'fmetro' ? FMetroStationIcon : StationIcon;
 };
+
+const BORDER_WIDTH = ICON_STROKE_WIDTH * 7;
+const OSI_BORDER_WIDTH = ICON_STROKE_WIDTH * 2.2;
 
 const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, InterchangeStation2024Props>(
     function InterchangeStation2024(
@@ -109,20 +113,39 @@ const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, Intercha
             stationNumberRefs.current = stationNumberRefs.current.slice(0, stations.length);
         }, [stations.length]);
 
+        const showOSILink = stations.length === 2 && columns === 1 && !!osiPosition;
+
         useImperativeHandle(
             ref,
             () => ({
                 target: gEl.current,
                 children: stationNumberRefs.current,
                 getCoordinates: () => translates,
+                getCorrectedBBox: () => {
+                    const bBox = gEl.current?.getBBox() ?? ({ x: 0, y: 0, width: 0, height: 0 } as SVGRect);
+                    bBox.y -= BORDER_WIDTH / 2;
+                    bBox.height += BORDER_WIDTH;
+                    if (showOSILink) {
+                        if (osiPosition === 'left') {
+                            bBox.x -= OSI_BORDER_WIDTH / 2;
+                        } else {
+                            bBox.x -= BORDER_WIDTH / 2;
+                        }
+                        bBox.width += OSI_BORDER_WIDTH / 2 + BORDER_WIDTH / 2;
+                    } else {
+                        bBox.x -= BORDER_WIDTH / 2;
+                        bBox.width += BORDER_WIDTH;
+                    }
+                    return bBox;
+                },
                 getTranslate: () => [groupX, groupY],
             }),
-            [translates, groupX, groupY, gEl.current, stationNumberRefs.current]
+            [translates, groupX, groupY, gEl.current, stationNumberRefs.current, osiPosition]
         );
 
-        const showOSILink = stations.length === 2 && columns === 1 && !!osiPosition;
         return (
             <g ref={gEl} transform={`translate(${groupX},${groupY})`} {...others}>
+                {/* grey border */}
                 {stations.map(({ style }, i) => {
                     const IconComponent = getIconComponent(style);
                     return (
@@ -130,20 +153,23 @@ const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, Intercha
                             key={i}
                             stroke="#aaa"
                             filled
-                            strokeWidth={ICON_STROKE_WIDTH * 7}
+                            strokeWidth={BORDER_WIDTH}
                             transform={`translate(${translates[i][0]},${translates[i][1]})`}
                         />
                     );
                 })}
+
+                {/* osi grey border */}
                 {showOSILink && (
                     <OSILink
                         position={osiPosition}
                         r={ICON_FULL_WIDTH / 2.9}
-                        strokeWidth={ICON_STROKE_WIDTH * 2.2}
+                        strokeWidth={OSI_BORDER_WIDTH}
                         strokeDasharray={undefined}
                     />
                 )}
 
+                {/* white gap */}
                 {stations.map(({ style }, i) => {
                     const IconComponent = getIconComponent(style);
                     return (
@@ -157,6 +183,7 @@ const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, Intercha
                     );
                 })}
 
+                {/* osi dashed line */}
                 {showOSILink && <OSILink position={osiPosition} />}
 
                 {/* To cover the grey area between stations. */}

@@ -11,6 +11,7 @@ import SvgAssetsContext from '../../utils/context/svg-assets-context';
 
 const Demo = (props: InterchangeStation2024Props) => {
     const [coordinates, setCoordinates] = useState<Coordinates[]>([]);
+    const [borderBox, setBorderBox] = useState<SVGRect>();
 
     const { update } = useContext(SvgAssetsContext);
     const ref = useRef<InterchangeStation2024Handle>(null);
@@ -18,8 +19,9 @@ const Demo = (props: InterchangeStation2024Props) => {
     useEffect(() => {
         if (ref.current) {
             setCoordinates(ref.current.getCoordinates());
+            setBorderBox(ref.current.getCorrectedBBox());
         }
-    }, [ref.current, props.stations, props.columns, props.topHeavy]);
+    }, [ref.current, props.stations, props.columns, props.topHeavy, props.osiPosition]);
 
     useEffect(() => {
         (window as any).update = update;
@@ -39,6 +41,15 @@ const Demo = (props: InterchangeStation2024Props) => {
                     ))}
                 </text>
             </g>
+            {borderBox && (
+                <rect
+                    x={borderBox.x}
+                    y={borderBox.y}
+                    width={borderBox.width}
+                    height={borderBox.height}
+                    className="shining-border"
+                />
+            )}
         </>
     );
 };

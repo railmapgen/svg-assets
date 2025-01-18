@@ -28,3 +28,22 @@
     --rmg-black: #132647;
     --rmg-grey: #a2aaad;
 }
+
+.shining-border {
+    animation: shine 1s linear infinite;
+    fill: none;
+}
+
+@keyframes shine {
+    0% {
+        stroke: red;
+    }
+
+    50% {
+        stroke: rgba(255, 0, 0, 0);
+    }
+
+    100% {
+        stroke: red;
+    }
+}

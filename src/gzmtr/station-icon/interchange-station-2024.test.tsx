@@ -156,6 +156,12 @@ describe('InterchangeStation2024', () => {
             );
 
             expect(ref.current?.getCoordinates()).toHaveLength(2);
+            expect(ref.current?.getCorrectedBBox()).toEqual({
+                x: expect.any(Number),
+                y: expect.any(Number),
+                width: expect.any(Number),
+                height: expect.any(Number),
+            });
             expect(ref.current?.getTranslate()).toEqual([0, 0]);
             expect(ref.current?.target?.querySelectorAll('path').length).toBeGreaterThan(0);
         });
