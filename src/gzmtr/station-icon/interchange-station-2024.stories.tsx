@@ -76,6 +76,7 @@ const line8 = '#008C95';
 const line11 = '#ffb00a';
 const line18 = '#0047BA';
 const line22 = '#CD5228';
+const gfLine = '#C4D600';
 const fsLine2 = '#F5333F';
 const tnh1 = '#5EB3E4';
 
@@ -105,16 +106,16 @@ const GZSouth: InterchangeStation2024Props['stations'] = [
 
 const stationOptions: Record<string, InterchangeStation2024Props['stations']> = {
     'GZ South': GZSouth,
-    'Hanxi Changlong': [
+    Yangang: [
         {
-            strokeColour: line3,
-            lineNum: '3',
-            stnNum: '03',
+            strokeColour: line11,
+            lineNum: '11',
+            stnNum: '25',
         },
         {
-            strokeColour: line7,
-            lineNum: '7',
-            stnNum: '05',
+            strokeColour: gfLine,
+            lineNum: 'GF',
+            stnNum: '22',
         },
     ],
     Linyuexi: [

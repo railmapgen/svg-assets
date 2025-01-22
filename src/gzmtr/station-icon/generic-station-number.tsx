@@ -1,7 +1,7 @@
 import { ExoticComponent, forwardRef, SVGProps, useContext, useEffect, useRef, useState } from 'react';
 import SvgAssetsContext from '../../utils/context/svg-assets-context';
 
-const TEXT_MAX_WIDTH = 15;
+export const TEXT_MAX_WIDTH = 17;
 
 interface StationIconProps extends SVGProps<SVGPathElement> {
     stroke: string;
@@ -16,11 +16,14 @@ export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
     passed?: boolean;
     size?: 'sm' | 'md' | 'lg';
     textClassName?: string;
+    // Use same scale in line and station numbers. (Guangfo Line in RMG)
+    useSameScale?: boolean;
 }
 
 const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
     function GenericStationNumber(props, ref) {
-        const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, children, ...others } = props;
+        const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, useSameScale, children, ...others } =
+            props;
 
         const { updateId } = useContext(SvgAssetsContext);
 
@@ -35,9 +38,18 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
             if (stnNumEl.current) setStnNumBBox(stnNumEl.current.getBBox());
         }, [lineNum, stnNum, updateId]);
 
+        const isLineNumLengthGreaterThanTwo = lineNum && lineNum.length > 2;
+        useEffect(() => {
+            if (useSameScale && isLineNumLengthGreaterThanTwo) {
+                console.warn(
+                    'GenericStationNumber(), useSameScale props does not work when lineNum has more than 2 characters'
+                );
+            }
+        }, [useSameScale, isLineNumLengthGreaterThanTwo]);
+
         const lineNumScale = TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, lineNumBBox.width);
         const stnNumScale =
-            lineNum?.length === 2 && stnNum?.length === 2
+            useSameScale && lineNum?.length === 2
                 ? lineNumScale
                 : TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, stnNumBBox.width);
 
