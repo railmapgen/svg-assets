@@ -1,5 +1,5 @@
 import { memo, SVGProps } from 'react';
-import { ICON_HEIGHT, ICON_STROKE_WIDTH } from '../../gzmtr/constants';
+import { ICON_HEIGHT, ICON_STROKE_WIDTH, ICON_STROKE_WIDTH_BOLDER } from '../../gzmtr/constants';
 
 /**
  *     A ----- F
@@ -23,14 +23,21 @@ const BC = ICON_HEIGHT - 2 * ABdy;
 interface StationIconProps extends SVGProps<SVGPathElement> {
     stroke: string;
     filled?: boolean;
+    bolder?: boolean;
 }
 
 export default memo(function StationIcon(props: StationIconProps) {
-    const { stroke, filled, ...others } = props;
+    const { stroke, filled, bolder, ...others } = props;
 
     const pathD = `M0,9.25 V-9.25 H-${AF} l-${ABdx},${ABdy} v${BC} l${ABdx},${ABdy} H${AF} l${ABdx},-${ABdy} v-${BC} l-${ABdx},-${ABdy} H0`;
 
     return (
-        <path d={pathD} fill={filled ? stroke : '#fff'} strokeWidth={ICON_STROKE_WIDTH} stroke={stroke} {...others} />
+        <path
+            d={pathD}
+            fill={filled ? stroke : '#fff'}
+            strokeWidth={bolder ? ICON_STROKE_WIDTH_BOLDER : ICON_STROKE_WIDTH}
+            stroke={stroke}
+            {...others}
+        />
     );
 });

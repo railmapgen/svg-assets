@@ -6,6 +6,7 @@ export const TEXT_MAX_WIDTH = 17;
 interface StationIconProps extends SVGProps<SVGPathElement> {
     stroke: string;
     filled?: boolean;
+    bolder?: boolean;
 }
 
 export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
@@ -16,14 +17,27 @@ export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
     passed?: boolean;
     size?: 'sm' | 'md' | 'lg';
     textClassName?: string;
+    // For RMG
+    bolderBorder?: boolean;
     // Use same scale in line and station numbers. (Guangfo Line in RMG)
     useSameScale?: boolean;
 }
 
 const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
     function GenericStationNumber(props, ref) {
-        const { Icon, lineNum, stnNum, strokeColour, passed, size, textClassName, useSameScale, children, ...others } =
-            props;
+        const {
+            Icon,
+            lineNum,
+            stnNum,
+            strokeColour,
+            passed,
+            size,
+            textClassName,
+            bolderBorder,
+            useSameScale,
+            children,
+            ...others
+        } = props;
 
         const { updateId } = useContext(SvgAssetsContext);
 
@@ -58,7 +72,7 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
         return (
             <g ref={ref} {...others}>
                 <g transform={`scale(${scale})`}>
-                    <Icon stroke={passed ? '#aaa' : strokeColour} filled={!lineNum && !stnNum} />
+                    <Icon stroke={passed ? '#aaa' : strokeColour} filled={!lineNum && !stnNum} bolder={bolderBorder} />
                     {(lineNum || stnNum) && (
                         <g textAnchor="middle" fontSize={13.5} fill={passed ? '#aaa' : '#000'}>
                             <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>

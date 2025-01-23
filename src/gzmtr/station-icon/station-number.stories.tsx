@@ -29,6 +29,10 @@ export const StationNumber: Story = {
             options: ['sm', 'md', 'lg'],
             control: { type: 'radio' },
         },
+        bolderBorder: {
+            options: [true, false],
+            control: { type: 'radio' },
+        },
         useSameScale: {
             options: [true, false],
             control: { type: 'radio' },

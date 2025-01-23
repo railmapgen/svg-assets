@@ -1,4 +1,5 @@
 export const ICON_STROKE_WIDTH = 1.3;
+export const ICON_STROKE_WIDTH_BOLDER = 1.7;
 export const ICON_HEIGHT = 18.5;
 
 // GZMTR station icon full height (including stroke width)
