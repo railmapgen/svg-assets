@@ -14,5 +14,9 @@ export const MidpointStation: Story = {
             options: [true, false],
             control: { type: 'radio' },
         },
+        anchorAt: {
+            options: ['text', 'circle'],
+            control: { type: 'radio' },
+        },
     },
 };

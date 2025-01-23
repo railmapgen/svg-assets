@@ -1,22 +1,31 @@
 import MidpointIcon from './midpoint-icon';
-import { SVGProps } from 'react';
+import { forwardRef, SVGProps } from 'react';
 
 type MidpointStationProps = {
     clockwise?: boolean;
-};
+    anchorAt?: 'text' | 'circle';
+} & SVGProps<SVGGElement>;
 
-export default function MidpointStation({ clockwise, ...props }: MidpointStationProps & SVGProps<SVGGElement>) {
+const MidpointStation = forwardRef<SVGGElement, MidpointStationProps>(function MidpointStation(
+    { clockwise, anchorAt = 'text', ...props },
+    ref
+) {
+    const translateX = anchorAt === 'circle' ? 29 : 0;
     return (
-        <g {...props}>
-            <MidpointIcon transform={`translate(-29,0)scale(${clockwise ? -1 : 1},1)`} />
-            <g textAnchor="middle" fontWeight="bold" fill="red" transform="translate(0,2)">
-                <text className="rmg-name__zh" y={-0.5} fontSize={11.5} fontWeight="bold">
-                    半环站
-                </text>
-                <text className="rmg-name__en" y={5.5} fontSize={4.5}>
-                    Midpoint Station
-                </text>
+        <g ref={ref} {...props}>
+            <g transform={`translate(${translateX},0)`}>
+                <MidpointIcon transform={`translate(-30,0)scale(${clockwise ? -1 : 1},1)`} />
+                <g textAnchor="middle" fontWeight="bold" fill="red" transform="translate(0,-2.5)">
+                    <text className="rmg-name__zh" fontSize={12} style={{ fontWeight: 'bold' }}>
+                        半环站
+                    </text>
+                    <text className="rmg-name__en" y={9} fontSize={4.5} style={{ fontWeight: 'bold' }}>
+                        Midpoint Station
+                    </text>
+                </g>
             </g>
         </g>
     );
-}
+});
+
+export default MidpointStation;
