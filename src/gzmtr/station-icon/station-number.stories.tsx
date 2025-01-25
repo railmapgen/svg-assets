@@ -33,6 +33,10 @@ export const StationNumber: Story = {
             options: [true, false],
             control: { type: 'radio' },
         },
+        alwaysShowColouredBorder: {
+            options: [true, false],
+            control: { type: 'radio' },
+        },
         useSameScale: {
             options: [true, false],
             control: { type: 'radio' },

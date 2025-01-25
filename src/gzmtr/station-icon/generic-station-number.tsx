@@ -19,6 +19,8 @@ export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
     textClassName?: string;
     // For RMG
     bolderBorder?: boolean;
+    // For RMG Guangzhou Line 11
+    alwaysShowColouredBorder?: boolean;
     // Use same scale in line and station numbers. (Guangfo Line in RMG)
     useSameScale?: boolean;
 }
@@ -34,6 +36,7 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
             size,
             textClassName,
             bolderBorder,
+            alwaysShowColouredBorder,
             useSameScale,
             children,
             ...others
@@ -72,7 +75,11 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
         return (
             <g ref={ref} {...others}>
                 <g transform={`scale(${scale})`}>
-                    <Icon stroke={passed ? '#aaa' : strokeColour} filled={!lineNum && !stnNum} bolder={bolderBorder} />
+                    <Icon
+                        stroke={passed && !alwaysShowColouredBorder ? '#aaa' : strokeColour}
+                        filled={!lineNum && !stnNum}
+                        bolder={bolderBorder}
+                    />
                     {(lineNum || stnNum) && (
                         <g textAnchor="middle" fontSize={13.5} fill={passed ? '#aaa' : '#000'}>
                             <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>
