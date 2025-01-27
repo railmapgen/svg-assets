@@ -70,7 +70,7 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
                 ? lineNumScale
                 : TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, stnNumBBox.width);
 
-        const scale = size === 'sm' ? '0.7' : size === 'lg' ? '1.4' : 1;
+        const scale = size === 'sm' ? '0.7' : size === 'lg' ? '1.6' : 1;
 
         return (
             <g ref={ref} {...others}>
