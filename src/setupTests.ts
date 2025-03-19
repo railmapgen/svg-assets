@@ -16,3 +16,5 @@ global.fetch = (...args) => {
 };
 
 global.TextEncoder = TextEncoder;
+
+Object.defineProperty(document, 'fonts', { value: { load: () => Promise.resolve() } });

@@ -2,6 +2,7 @@ import { ExoticComponent, forwardRef, SVGProps, useContext, useEffect, useRef, u
 import SvgAssetsContext from '../../utils/context/svg-assets-context';
 
 export const TEXT_MAX_WIDTH = 17;
+const FONTS = ['Arial'];
 
 interface StationIconProps extends SVGProps<SVGPathElement> {
     stroke: string;
@@ -50,9 +51,28 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
         const [lineNumBBox, setLineNumBBox] = useState({ width: 0 } as DOMRect);
         const [stnNumBBox, setStnNumBBox] = useState({ width: 0 } as DOMRect);
 
-        useEffect(() => {
+        const updateBBox = () => {
             if (lineNumEl.current) setLineNumBBox(lineNumEl.current.getBBox());
             if (stnNumEl.current) setStnNumBBox(stnNumEl.current.getBBox());
+        };
+
+        useEffect(() => {
+            const abortController = new AbortController();
+            updateBBox();
+            document.fonts
+                .load('12px ' + FONTS.join(', '), (lineNum ?? '') + (stnNum ?? ''))
+                .then()
+                .finally(() => {
+                    setTimeout(() => {
+                        if (!abortController.signal.aborted) {
+                            updateBBox();
+                        }
+                    }, 100);
+                });
+
+            return () => {
+                abortController.abort();
+            };
         }, [lineNum, stnNum, updateId]);
 
         const isLineNumLengthGreaterThanTwo = lineNum && lineNum.length > 2;
