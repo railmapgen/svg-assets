@@ -46,7 +46,7 @@
         "storybook": "storybook dev -p 6006",
         "build:storybook": "storybook build"
     },
-    "version": "5.0.12",
+    "version": "5.0.13",
     "exports": {
         ".": "./dist/index.js",
         "./*": "./dist/*/index.js"
