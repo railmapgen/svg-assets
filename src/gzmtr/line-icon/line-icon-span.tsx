@@ -26,6 +26,7 @@ export default function LineIconSpan(props: LineIconProps) {
         enClassName,
         passed,
         children,
+        spanDigits: _,
         ...others
     } = props;
 

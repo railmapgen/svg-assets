@@ -13,6 +13,7 @@ export default function LineIconLong(props: LineIconProps) {
         enClassName,
         passed,
         children,
+        spanDigits: _,
         ...others
     } = props;
 
