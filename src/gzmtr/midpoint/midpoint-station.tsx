@@ -6,7 +6,7 @@ type MidpointStationProps = {
     anchorAt?: 'text' | 'circle';
 } & SVGProps<SVGGElement>;
 
-const MidpointStation = forwardRef<SVGGElement, MidpointStationProps>(function MidpointStation(
+export default forwardRef<SVGGElement, MidpointStationProps>(function MidpointStation(
     { clockwise, anchorAt = 'text', ...props },
     ref
 ) {
@@ -27,5 +27,3 @@ const MidpointStation = forwardRef<SVGGElement, MidpointStationProps>(function M
         </g>
     );
 });
-
-export default MidpointStation;

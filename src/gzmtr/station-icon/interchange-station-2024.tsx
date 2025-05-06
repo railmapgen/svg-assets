@@ -84,130 +84,126 @@ const getIconComponent = (style?: 'gzmtr' | 'fmetro') => {
 const BORDER_WIDTH = ICON_STROKE_WIDTH * 7;
 const OSI_BORDER_WIDTH = ICON_STROKE_WIDTH * 2.2;
 
-const InterchangeStation2024 = forwardRef<InterchangeStation2024Handle, InterchangeStation2024Props>(
-    function InterchangeStation2024(
-        { stations, textClassName, columns = 2, topHeavy, anchorAt, osiPosition, children, ...others },
-        ref
-    ) {
-        const translates = useMemo(
-            () => getTranslates(stations.length, columns, topHeavy),
-            [stations.length, columns, topHeavy]
-        );
+export default forwardRef<InterchangeStation2024Handle, InterchangeStation2024Props>(function InterchangeStation2024(
+    { stations, textClassName, columns = 2, topHeavy, anchorAt, osiPosition, children, ...others },
+    ref
+) {
+    const translates = useMemo(
+        () => getTranslates(stations.length, columns, topHeavy),
+        [stations.length, columns, topHeavy]
+    );
 
-        const [groupX, groupY] = useMemo<Coordinates>(() => {
-            if (anchorAt === undefined) {
-                return [0, 0];
-            } else if (anchorAt < 0 || anchorAt >= translates.length) {
-                console.warn(`<InterchangeStation2024/>, anchor index ${anchorAt} is out of bound`);
-                return [0, 0];
-            } else {
-                const [x, y] = translates[anchorAt];
-                return [-x, -y];
-            }
-        }, [translates, anchorAt]);
+    const [groupX, groupY] = useMemo<Coordinates>(() => {
+        if (anchorAt === undefined) {
+            return [0, 0];
+        } else if (anchorAt < 0 || anchorAt >= translates.length) {
+            console.warn(`<InterchangeStation2024/>, anchor index ${anchorAt} is out of bound`);
+            return [0, 0];
+        } else {
+            const [x, y] = translates[anchorAt];
+            return [-x, -y];
+        }
+    }, [translates, anchorAt]);
 
-        const gEl = useRef<SVGGElement>(null);
-        const stationNumberRefs = useRef<(SVGGElement | null)[]>([]);
+    const gEl = useRef<SVGGElement>(null);
+    const stationNumberRefs = useRef<(SVGGElement | null)[]>([]);
 
-        useEffect(() => {
-            stationNumberRefs.current = stationNumberRefs.current.slice(0, stations.length);
-        }, [stations.length]);
+    useEffect(() => {
+        stationNumberRefs.current = stationNumberRefs.current.slice(0, stations.length);
+    }, [stations.length]);
 
-        const showOSILink = stations.length === 2 && columns === 1 && !!osiPosition;
+    const showOSILink = stations.length === 2 && columns === 1 && !!osiPosition;
 
-        useImperativeHandle(
-            ref,
-            () => ({
-                target: gEl.current,
-                children: stationNumberRefs.current,
-                getCoordinates: () => translates,
-                getCorrectedBBox: () => {
-                    const bBox = gEl.current?.getBBox() ?? ({ x: 0, y: 0, width: 0, height: 0 } as SVGRect);
-                    bBox.y -= BORDER_WIDTH / 2;
-                    bBox.height += BORDER_WIDTH;
-                    if (showOSILink) {
-                        if (osiPosition === 'left') {
-                            bBox.x -= OSI_BORDER_WIDTH / 2;
-                        } else {
-                            bBox.x -= BORDER_WIDTH / 2;
-                        }
-                        bBox.width += OSI_BORDER_WIDTH / 2 + BORDER_WIDTH / 2;
+    useImperativeHandle(
+        ref,
+        () => ({
+            target: gEl.current,
+            children: stationNumberRefs.current,
+            getCoordinates: () => translates,
+            getCorrectedBBox: () => {
+                const bBox = gEl.current?.getBBox() ?? ({ x: 0, y: 0, width: 0, height: 0 } as SVGRect);
+                bBox.y -= BORDER_WIDTH / 2;
+                bBox.height += BORDER_WIDTH;
+                if (showOSILink) {
+                    if (osiPosition === 'left') {
+                        bBox.x -= OSI_BORDER_WIDTH / 2;
                     } else {
                         bBox.x -= BORDER_WIDTH / 2;
-                        bBox.width += BORDER_WIDTH;
                     }
-                    return bBox;
-                },
-                getTranslate: () => [groupX, groupY],
-            }),
-            [translates, groupX, groupY, gEl.current, stationNumberRefs.current, osiPosition]
-        );
+                    bBox.width += OSI_BORDER_WIDTH / 2 + BORDER_WIDTH / 2;
+                } else {
+                    bBox.x -= BORDER_WIDTH / 2;
+                    bBox.width += BORDER_WIDTH;
+                }
+                return bBox;
+            },
+            getTranslate: () => [groupX, groupY],
+        }),
+        [translates, groupX, groupY, gEl.current, stationNumberRefs.current, osiPosition]
+    );
 
-        return (
-            <g ref={gEl} transform={`translate(${groupX},${groupY})`} {...others}>
-                {/* grey border */}
-                {stations.map(({ style }, i) => {
-                    const IconComponent = getIconComponent(style);
-                    return (
-                        <IconComponent
-                            key={i}
-                            stroke="#aaa"
-                            filled
-                            strokeWidth={BORDER_WIDTH}
-                            transform={`translate(${translates[i][0]},${translates[i][1]})`}
-                        />
-                    );
-                })}
-
-                {/* osi grey border */}
-                {showOSILink && (
-                    <OSILink
-                        position={osiPosition}
-                        r={ICON_FULL_WIDTH / 2.9}
-                        strokeWidth={OSI_BORDER_WIDTH}
-                        strokeDasharray={undefined}
+    return (
+        <g ref={gEl} transform={`translate(${groupX},${groupY})`} {...others}>
+            {/* grey border */}
+            {stations.map(({ style }, i) => {
+                const IconComponent = getIconComponent(style);
+                return (
+                    <IconComponent
+                        key={i}
+                        stroke="#aaa"
+                        filled
+                        strokeWidth={BORDER_WIDTH}
+                        transform={`translate(${translates[i][0]},${translates[i][1]})`}
                     />
-                )}
+                );
+            })}
 
-                {/* white gap */}
-                {stations.map(({ style }, i) => {
-                    const IconComponent = getIconComponent(style);
-                    return (
-                        <IconComponent
-                            key={i}
-                            stroke="white"
-                            filled
-                            strokeWidth={ICON_STROKE_WIDTH * 2.6}
-                            transform={`translate(${translates[i][0]},${translates[i][1]})`}
-                        />
-                    );
-                })}
+            {/* osi grey border */}
+            {showOSILink && (
+                <OSILink
+                    position={osiPosition}
+                    r={ICON_FULL_WIDTH / 2.9}
+                    strokeWidth={OSI_BORDER_WIDTH}
+                    strokeDasharray={undefined}
+                />
+            )}
 
-                {/* osi dashed line */}
-                {showOSILink && <OSILink position={osiPosition} />}
+            {/* white gap */}
+            {stations.map(({ style }, i) => {
+                const IconComponent = getIconComponent(style);
+                return (
+                    <IconComponent
+                        key={i}
+                        stroke="white"
+                        filled
+                        strokeWidth={ICON_STROKE_WIDTH * 2.6}
+                        transform={`translate(${translates[i][0]},${translates[i][1]})`}
+                    />
+                );
+            })}
 
-                {/* To cover the grey area between stations. */}
-                {stations.length && (
-                    <rect fill="white" x={-12} y={translates[0][1]} width={24} height={-translates[0][1] * 2} />
-                )}
+            {/* osi dashed line */}
+            {showOSILink && <OSILink position={osiPosition} />}
 
-                {stations.map(({ style, ...others }, i) => {
-                    const StationNumberComponent = style === 'fmetro' ? FMetroStationNumber : StationNumber;
-                    return (
-                        <StationNumberComponent
-                            key={i}
-                            ref={el => (stationNumberRefs.current[i] = el)}
-                            transform={`translate(${translates[i][0]},${translates[i][1]})`}
-                            textClassName={textClassName}
-                            {...others}
-                        />
-                    );
-                })}
+            {/* To cover the grey area between stations. */}
+            {stations.length && (
+                <rect fill="white" x={-12} y={translates[0][1]} width={24} height={-translates[0][1] * 2} />
+            )}
 
-                {children}
-            </g>
-        );
-    }
-);
+            {stations.map(({ style, ...others }, i) => {
+                const StationNumberComponent = style === 'fmetro' ? FMetroStationNumber : StationNumber;
+                return (
+                    <StationNumberComponent
+                        key={i}
+                        ref={el => (stationNumberRefs.current[i] = el)}
+                        transform={`translate(${translates[i][0]},${translates[i][1]})`}
+                        textClassName={textClassName}
+                        {...others}
+                    />
+                );
+            })}
 
-export default InterchangeStation2024;
+            {children}
+        </g>
+    );
+});

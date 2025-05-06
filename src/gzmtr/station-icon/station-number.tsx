@@ -4,8 +4,6 @@ import { forwardRef } from 'react';
 
 type StationNumberProps = Omit<GenericStationNumberProps, 'Icon'>;
 
-const StationNumber = forwardRef<SVGGElement, StationNumberProps>(function StationNumber(props, ref) {
+export default forwardRef<SVGGElement, StationNumberProps>(function StationNumber(props, ref) {
     return <GenericStationNumber Icon={StationIcon} {...props} ref={ref} />;
 });
-
-export default StationNumber;
