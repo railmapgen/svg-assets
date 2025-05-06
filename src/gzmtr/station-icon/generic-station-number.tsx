@@ -76,17 +76,18 @@ const GenericStationNumber = forwardRef<SVGGElement, GenericStationNumberProps>(
         }, [lineNum, stnNum, updateId]);
 
         const isLineNumLengthGreaterThanTwo = lineNum && lineNum.length > 2;
+        const isStationNumLengthGreaterThanTwo = stnNum && stnNum.length > 2;
         useEffect(() => {
-            if (useSameScale && isLineNumLengthGreaterThanTwo) {
+            if (useSameScale && (isLineNumLengthGreaterThanTwo || isStationNumLengthGreaterThanTwo)) {
                 console.warn(
                     'GenericStationNumber(), useSameScale props does not work when lineNum has more than 2 characters'
                 );
             }
-        }, [useSameScale, isLineNumLengthGreaterThanTwo]);
+        }, [useSameScale, isLineNumLengthGreaterThanTwo, isStationNumLengthGreaterThanTwo]);
 
         const lineNumScale = TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, lineNumBBox.width);
         const stnNumScale =
-            useSameScale && lineNum?.length === 2
+            useSameScale && !isLineNumLengthGreaterThanTwo && !isStationNumLengthGreaterThanTwo
                 ? lineNumScale
                 : TEXT_MAX_WIDTH / Math.max(TEXT_MAX_WIDTH, stnNumBBox.width);
 

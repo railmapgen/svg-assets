@@ -34,6 +34,22 @@ describe('GZMTR - StationNumber', () => {
         expect(stnNumScale).toBe((TEXT_MAX_WIDTH / 20).toString()); // will apply line num scale
     });
 
+    it('#7 Can apply different scale to line and stn numbers if station number has length greater than 2', async () => {
+        mockGetBBox.mockReturnValueOnce({ width: 20 }); // mock line num bbox
+        mockGetBBox.mockReturnValueOnce({ width: 35 }); // mock stn num bbox
+        render(
+            <svg>
+                <StationNumber lineNum="GF" stnNum="11-23" strokeColour="red" useSameScale />
+            </svg>
+        );
+
+        const lineNumScale = getScaleFromTransform(screen.getByText('GF').closest('g')?.getAttribute('transform'));
+        expect(lineNumScale).toBe((TEXT_MAX_WIDTH / 20).toString());
+
+        const stnNumScale = getScaleFromTransform(screen.getByText('11-23').closest('g')?.getAttribute('transform'));
+        expect(stnNumScale).toBe((TEXT_MAX_WIDTH / 35).toString()); // will apply station num scale
+    });
+
     it('Can apply different scales as expected', async () => {
         mockGetBBox.mockReturnValueOnce({ width: 10 }); // mock line num bbox
         mockGetBBox.mockReturnValueOnce({ width: 20 }); // mock stn num bbox
