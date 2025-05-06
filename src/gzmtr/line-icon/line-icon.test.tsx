@@ -1,7 +1,8 @@
 import LineIcon from './line-icon';
 import { render, screen } from '@testing-library/react';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
-import { vi } from 'vitest';
+import { expect, vi } from 'vitest';
+import { createRef } from 'react';
 
 const mockGetBBox = vi.fn();
 (SVGElement.prototype as any).getBBox = mockGetBBox;
@@ -123,5 +124,21 @@ describe('GZMTR - LineIcon', () => {
         );
 
         expect(screen.getByTestId('intBox')).toHaveAttribute('width', '54');
+    });
+
+    it('Can forward ref to internal g element', () => {
+        const ref = createRef<SVGGElement>();
+        render(
+            <svg>
+                <LineIcon
+                    ref={ref}
+                    zhName="18号线"
+                    enName="Line 18"
+                    foregroundColour={MonoColour.black}
+                    backgroundColour="#000000"
+                />
+            </svg>
+        );
+        expect(ref.current?.tagName).toBe('g');
     });
 });

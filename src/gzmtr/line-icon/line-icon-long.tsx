@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { LineIconProps } from './line-icon';
 import InterchangeBox from './interchange-box';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 
-export default function LineIconLong(props: LineIconProps) {
+export default forwardRef<SVGGElement, LineIconProps>(function LineIconLong(props, ref) {
     const {
         zhName,
         enName,
@@ -28,7 +28,7 @@ export default function LineIconLong(props: LineIconProps) {
     const boxWidth = Math.max(45, bBox.width + 4);
 
     return (
-        <g textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
+        <g ref={ref} textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
             <InterchangeBox customWidth={boxWidth} fill={passed ? '#aaa' : backgroundColour} />
             <g ref={wrapperEl}>
                 <text className={zhClassName} fontSize={8.5} y={8} dominantBaseline="central">
@@ -42,4 +42,4 @@ export default function LineIconLong(props: LineIconProps) {
             {children}
         </g>
     );
-}
+});

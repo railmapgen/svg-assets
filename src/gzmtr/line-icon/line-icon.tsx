@@ -1,4 +1,4 @@
-import { memo, SVGProps } from 'react';
+import { forwardRef, memo, SVGProps } from 'react';
 import LineIconSpan from './line-icon-span';
 import { ColourHex, MonoColour } from '@railmapgen/rmg-palette-resources';
 import LineIconNumber from './line-icon-number';
@@ -17,20 +17,22 @@ export interface LineIconProps extends SVGProps<SVGGElement> {
     spanDigits?: boolean;
 }
 
-export default memo(function LineIcon(props: LineIconProps) {
-    const { zhName, enName, spanDigits } = props;
+export default memo(
+    forwardRef<SVGGElement, LineIconProps>(function LineIcon(props, ref) {
+        const { zhName, enName, spanDigits } = props;
 
-    const type = getType(zhName, enName);
+        const type = getType(zhName, enName);
 
-    switch (type) {
-        case 1:
-            return spanDigits ? <LineIconSpan {...props} /> : <LineIconNumber {...props} />;
-        case 2:
-            return <LineIconSpan {...props} />;
-        default:
-            return zhName.length >= 5 ? <LineIconLong {...props} /> : <LineIconText {...props} />;
-    }
-});
+        switch (type) {
+            case 1:
+                return spanDigits ? <LineIconSpan ref={ref} {...props} /> : <LineIconNumber ref={ref} {...props} />;
+            case 2:
+                return <LineIconSpan {...props} />;
+            default:
+                return zhName.length >= 5 ? <LineIconLong {...props} /> : <LineIconText {...props} />;
+        }
+    })
+);
 
 /**
  * type 1: 2号线
