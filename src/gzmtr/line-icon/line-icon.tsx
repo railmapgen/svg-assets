@@ -27,9 +27,13 @@ export default memo(
             case 1:
                 return spanDigits ? <LineIconSpan ref={ref} {...props} /> : <LineIconNumber ref={ref} {...props} />;
             case 2:
-                return <LineIconSpan {...props} />;
+                return <LineIconSpan ref={ref} {...props} />;
             default:
-                return zhName.length >= 5 ? <LineIconLong {...props} /> : <LineIconText {...props} />;
+                return zhName.length >= 5 ? (
+                    <LineIconLong ref={ref} {...props} />
+                ) : (
+                    <LineIconText ref={ref} {...props} />
+                );
         }
     })
 );
