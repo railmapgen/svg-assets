@@ -20,10 +20,10 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconNumber(pr
 
     const digitPart = getLeadingDigits(zhName) ?? '';
 
-    const nameZhEl = useRef<SVGTextElement | null>(null);
-    const nameEnEl = useRef<SVGTextElement | null>(null);
+    const nameZhEl = useRef<SVGTextElement>(null);
+    const nameEnEl = useRef<SVGTextElement>(null);
 
-    const [nameZhBBox, setNameZhBBox] = useState({ width: 0 } as DOMRect);
+    const [nameZhBBox, setNameZhBBox] = useState({ x: 0, width: 0 } as DOMRect);
     const [nameEnBBox, setNameEnBBox] = useState({ width: 0 } as DOMRect);
 
     useEffect(() => {
@@ -41,7 +41,8 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconNumber(pr
             // (1 - scale) -- offset multiplier
             // scale -- visualisation offset
             // 2 -- divide into halves (top and bottom)ø
-            y: 7.3 + (13.5 * (1 - nameZhScale) * nameZhScale) / 2,
+            x: -(nameZhBBox.x + nameZhBBox.width / 2) * nameZhScale,
+            y: 7.3 + ((13.5 * (1 - nameZhScale) * nameZhScale) / 2) * nameZhScale,
         },
         nameEn: {
             y: 19.5 - (9 * (1 - nameEnScale) * nameEnScale) / 2,
@@ -49,26 +50,31 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconNumber(pr
     };
 
     return (
-        <g ref={ref} textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
+        <g ref={ref} fill={passed ? MonoColour.white : foregroundColour} {...others}>
             <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
-            <text
+            <g
                 ref={nameZhEl}
-                className={zhClassName}
-                fontSize={12}
-                transform={`translate(0,${transforms.nameZh.y})scale(${nameZhScale})`}
-                dominantBaseline="central"
+                transform={`translate(${transforms.nameZh.x},${transforms.nameZh.y})scale(${nameZhScale})`}
             >
-                <tspan fontSize={16} dy={0.7} dominantBaseline="central">
+                <text
+                    ref={nameZhEl}
+                    className={zhClassName}
+                    fontSize={16}
+                    textAnchor="end"
+                    y={0.7}
+                    dominantBaseline="central"
+                >
                     {digitPart}
-                </tspan>
-                <tspan dy={-0.7} dominantBaseline="central">
+                </text>
+                <text className={zhClassName} fontSize={12} textAnchor="start" dominantBaseline="central">
                     {zhName.slice(digitPart.length)}
-                </tspan>
-            </text>
+                </text>
+            </g>
             <text
                 ref={nameEnEl}
                 className={enClassName}
                 fontSize={8}
+                textAnchor="middle"
                 transform={`translate(0,${transforms.nameEn.y})scale(${nameEnScale})`}
                 dominantBaseline="middle"
             >

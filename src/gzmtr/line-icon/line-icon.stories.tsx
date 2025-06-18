@@ -21,11 +21,11 @@ export const LineIcon: Story = {
     },
     argTypes: {
         zhName: {
-            options: ['2号线', '18号线', 'APM线', '广佛线', '佛山2号线', '海珠有轨1号线'],
+            options: ['2号线', '18号线', '12345号线', 'APM线', '广佛线', '佛山2号线', '海珠有轨1号线'],
             control: { type: 'inline-radio' },
         },
         enName: {
-            options: ['Line 2', 'Line 18', 'APM Line', 'Guangfo Line', 'Foshan Line 2', 'THZ1'],
+            options: ['Line 2', 'Line 18', 'Line 12345', 'APM Line', 'Guangfo Line', 'Foshan Line 2', 'THZ1'],
             control: { type: 'inline-radio' },
         },
         foregroundColour: {

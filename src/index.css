@@ -1,11 +1,11 @@
 .rmg-name__zh {
-    dominant-baseline: central;
+    /*dominant-baseline: central;*/
     font-family: Arial, SimHei, STHeitiSC-Medium, 'PingFang SC', sans-serif;
     font-weight: normal;
 }
 
 .rmg-name__en {
-    dominant-baseline: middle;
+    /*dominant-baseline: middle;*/
     font-family: Arial, sans-serif;
 }
 

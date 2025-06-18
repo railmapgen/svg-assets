@@ -1,5 +1,5 @@
 import LineIcon from './line-icon';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 import { expect, vi } from 'vitest';
 import { createRef } from 'react';
@@ -47,8 +47,9 @@ describe('GZMTR - LineIcon', () => {
         );
 
         // text is separated in 3 elements
-        expect(screen.getByText('18').tagName).toBe('tspan');
-        expect(screen.getByText('号线').tagName).toBe('tspan');
+        expect(within(screen.getByText('18').parentElement!).getByText('号线')).toBeInTheDocument();
+        expect(screen.getByText('18').tagName).toBe('text');
+        expect(screen.getByText('号线').tagName).toBe('text');
         expect(screen.getByText('Line 18').tagName).toBe('text');
     });
 
@@ -66,8 +67,8 @@ describe('GZMTR - LineIcon', () => {
         );
 
         // remaining part
-        expect(screen.getByText('号线').tagName).toBe('tspan');
-        expect(screen.getByText('Line 18').tagName).toBe('tspan');
+        expect(screen.getByText('号线').tagName).toBe('text');
+        expect(screen.getByText('Line 18').tagName).toBe('text');
 
         // digits part
         expect(screen.getByText('18').tagName).toBe('text');
@@ -86,8 +87,8 @@ describe('GZMTR - LineIcon', () => {
         );
 
         // remaining part
-        expect(screen.getByText('线').tagName).toBe('tspan');
-        expect(screen.getByText('Line').tagName).toBe('tspan');
+        expect(screen.getByText('线').tagName).toBe('text');
+        expect(screen.getByText('Line').tagName).toBe('text');
 
         // common part
         expect(screen.getByText('APM').tagName).toBe('text');

@@ -46,29 +46,22 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconSpan(prop
         <g ref={ref} textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
             <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
             <g ref={wrapperEl} transform={`translate(${dx},${dy})scale(${scale})`}>
-                <text className={zhClassName} fontSize={21} x={-1} y={12} textAnchor="end" dominantBaseline="central">
+                <text className={enClassName} fontSize={21} x={-1} y={12} textAnchor="end" dominantBaseline="central">
                     {spanningPart}
-                    <tspan
-                        className={zhClassName}
-                        fontSize={10}
-                        x={0}
-                        dy={-4}
-                        textAnchor="start"
-                        dominantBaseline="central"
-                    >
-                        {zhName.slice(spanningPart.length).trim()}
-                    </tspan>
-                    <tspan
-                        className={enClassName}
-                        fontSize={6.5}
-                        letterSpacing={-0.1}
-                        x={0}
-                        dy={10}
-                        textAnchor="start"
-                        dominantBaseline="middle"
-                    >
-                        {isDigit ? enName : enName.slice(spanningPart.length).trim()}
-                    </tspan>
+                </text>
+                <text className={zhClassName} fontSize={10} x={0} y={8} textAnchor="start" dominantBaseline="central">
+                    {zhName.slice(spanningPart.length).trim()}
+                </text>
+                <text
+                    className={enClassName}
+                    fontSize={6.5}
+                    letterSpacing={-0.1}
+                    x={0}
+                    y={18}
+                    textAnchor="start"
+                    dominantBaseline="middle"
+                >
+                    {isDigit ? enName : enName.slice(spanningPart.length).trim()}
                 </text>
             </g>
 
