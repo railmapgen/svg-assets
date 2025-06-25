@@ -166,7 +166,7 @@ const stationOptions: Record<string, InterchangeStation2024Props['stations']> = 
 export const InterchangeStation2024: Story = {
     args: {
         stations: [],
-        textClassName: 'rmg-name__zh',
+        classNames: { digits: 'rmg-name__en' },
     },
     argTypes: {
         stations: {

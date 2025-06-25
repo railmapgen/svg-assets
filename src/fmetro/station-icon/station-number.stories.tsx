@@ -15,7 +15,7 @@ export const StationNumber: Story = {
         stnNum: '20',
         strokeColour: '#F5333F',
         size: 'md',
-        textClassName: 'rmg-name__zh',
+        classNames: { digits: 'rmg-name__en' },
     },
     argTypes: {
         strokeColour: {

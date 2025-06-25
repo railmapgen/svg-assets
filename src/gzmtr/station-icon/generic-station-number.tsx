@@ -1,5 +1,6 @@
 import { ExoticComponent, forwardRef, SVGProps, useContext, useEffect, useRef, useState } from 'react';
 import SvgAssetsContext from '../../utils/context/svg-assets-context';
+import clsx from 'clsx';
 
 export const TEXT_MAX_WIDTH = 17;
 const FONTS = ['Arial'];
@@ -10,6 +11,8 @@ interface StationIconProps extends SVGProps<SVGPathElement> {
     bolder?: boolean;
 }
 
+type StationNumberSelector = 'wrapper' | 'digits';
+
 export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
     Icon: ExoticComponent<StationIconProps>;
     lineNum?: string;
@@ -17,7 +20,8 @@ export interface GenericStationNumberProps extends SVGProps<SVGGElement> {
     strokeColour: string;
     passed?: boolean;
     size?: 'sm' | 'md' | 'lg';
-    textClassName?: string;
+    classNames?: Partial<Record<StationNumberSelector, SVGProps<SVGGElement>['className']>>;
+    textProps?: Omit<SVGProps<SVGTextElement>, 'className'>;
     // For RMG
     bolderBorder?: boolean;
     // For RMG Guangzhou Line 11
@@ -34,11 +38,13 @@ export default forwardRef<SVGGElement, GenericStationNumberProps>(function Gener
         strokeColour,
         passed,
         size,
-        textClassName,
         bolderBorder,
         alwaysShowColouredBorder,
         useSameScale,
+        className,
+        classNames,
         children,
+        textProps,
         ...others
     } = props;
 
@@ -93,7 +99,7 @@ export default forwardRef<SVGGElement, GenericStationNumberProps>(function Gener
     const scale = size === 'sm' ? '0.7' : size === 'lg' ? '1.6' : 1;
 
     return (
-        <g ref={ref} {...others}>
+        <g ref={ref} className={clsx(classNames?.wrapper, className)} {...others}>
             <g transform={`scale(${scale})`}>
                 <Icon
                     stroke={passed && !alwaysShowColouredBorder ? '#aaa' : strokeColour}
@@ -103,12 +109,23 @@ export default forwardRef<SVGGElement, GenericStationNumberProps>(function Gener
                 {(lineNum || stnNum) && (
                     <g textAnchor="middle" fontSize={13.5} fill={passed ? '#aaa' : '#000'}>
                         <g transform={`translate(-9.25,0)scale(${lineNumScale})`}>
-                            <text ref={lineNumEl} className={textClassName} dominantBaseline="central" x={0.5}>
+                            <text
+                                ref={lineNumEl}
+                                dominantBaseline="central"
+                                x={0.5}
+                                className={classNames?.digits}
+                                {...textProps}
+                            >
                                 {lineNum}
                             </text>
                         </g>
                         <g transform={`translate(9.25,0)scale(${stnNumScale})`}>
-                            <text ref={stnNumEl} className={textClassName} dominantBaseline="central">
+                            <text
+                                ref={stnNumEl}
+                                dominantBaseline="central"
+                                className={classNames?.digits}
+                                {...textProps}
+                            >
                                 {stnNum}
                             </text>
                         </g>

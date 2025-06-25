@@ -5,6 +5,7 @@ import FMetroStationNumber from '../../fmetro/station-icon/station-number';
 import StationNumber from './station-number';
 import { forwardRef, SVGProps, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import OSILink from './osi-link';
+import { GenericStationNumberProps } from './generic-station-number';
 
 export type Coordinates = [number, number];
 
@@ -67,7 +68,8 @@ export type InterchangeStation2024Handle = {
 
 export interface InterchangeStation2024Props extends SVGProps<SVGGElement> {
     stations: StationProps[];
-    textClassName?: string;
+    classNames?: GenericStationNumberProps['classNames'];
+    textProps?: GenericStationNumberProps['textProps'];
     columns?: number;
     // Default is pyramid. If bottomHeavy === true, it's reverse pyramid style.
     topHeavy?: boolean;
@@ -85,7 +87,7 @@ const BORDER_WIDTH = ICON_STROKE_WIDTH * 7;
 const OSI_BORDER_WIDTH = ICON_STROKE_WIDTH * 2.2;
 
 export default forwardRef<InterchangeStation2024Handle, InterchangeStation2024Props>(function InterchangeStation2024(
-    { stations, textClassName, columns = 2, topHeavy, anchorAt, osiPosition, children, ...others },
+    { stations, classNames, columns = 2, topHeavy, anchorAt, osiPosition, children, ...others },
     ref
 ) {
     const translates = useMemo(
@@ -197,7 +199,7 @@ export default forwardRef<InterchangeStation2024Handle, InterchangeStation2024Pr
                         key={i}
                         ref={el => (stationNumberRefs.current[i] = el)}
                         transform={`translate(${translates[i][0]},${translates[i][1]})`}
-                        textClassName={textClassName}
+                        classNames={classNames}
                         {...others}
                     />
                 );
