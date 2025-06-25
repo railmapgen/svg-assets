@@ -6,15 +6,18 @@ import LineIconLong from './line-icon-long';
 import LineIconText from './line-icon-text';
 import { getCommonStarts, getLeadingDigits } from './utils';
 
+type TextElementSelector = 'digits' | 'zh' | 'en';
+type LineIconSelector = 'wrapper' | TextElementSelector;
+
 export interface LineIconProps extends SVGProps<SVGGElement> {
     zhName: string;
     enName: string;
     foregroundColour: MonoColour;
     backgroundColour: ColourHex;
-    zhClassName?: string;
-    enClassName?: string;
     passed?: boolean;
     spanDigits?: boolean;
+    classNames?: Partial<Record<LineIconSelector, SVGProps<SVGGElement>['className']>>;
+    textProps?: Partial<Record<TextElementSelector, Omit<SVGProps<SVGTextElement>, 'className'>>>;
 }
 
 export default memo(

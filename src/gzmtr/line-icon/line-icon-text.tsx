@@ -3,6 +3,7 @@ import { LineIconProps } from './line-icon';
 import InterchangeBox from './interchange-box';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 import { MAX_TEXT_WIDTH } from './utils';
+import clsx from 'clsx';
 
 export default forwardRef<SVGGElement, LineIconProps>(function LineIconText(props, ref) {
     const {
@@ -10,11 +11,12 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconText(prop
         enName,
         foregroundColour,
         backgroundColour,
-        zhClassName,
-        enClassName,
         passed,
-        children,
         spanDigits: _,
+        className,
+        classNames,
+        children,
+        textProps,
         ...others
     } = props;
 
@@ -47,23 +49,31 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconText(prop
     };
 
     return (
-        <g ref={ref} textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
+        <g
+            ref={ref}
+            textAnchor="middle"
+            fill={passed ? MonoColour.white : foregroundColour}
+            className={clsx(classNames?.wrapper, className)}
+            {...others}
+        >
             <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
             <text
                 ref={nameZhEl}
-                className={zhClassName}
                 fontSize={12}
                 transform={`translate(0,${transforms.nameZh.y})scale(${nameZhScale})`}
                 dominantBaseline="central"
+                className={classNames?.zh}
+                {...textProps?.zh}
             >
                 {zhName}
             </text>
             <text
                 ref={nameEnEl}
-                className={enClassName}
                 fontSize={8}
                 transform={`translate(0,${transforms.nameEn.y})scale(${nameEnScale})`}
                 dominantBaseline="middle"
+                className={classNames?.en}
+                {...textProps?.en}
             >
                 {enName}
             </text>

@@ -3,6 +3,7 @@ import { LineIconProps } from './line-icon';
 import InterchangeBox from './interchange-box';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 import { getLeadingDigits, MAX_TEXT_WIDTH } from './utils';
+import clsx from 'clsx';
 
 export default forwardRef<SVGGElement, LineIconProps>(function LineIconNumber(props, ref) {
     const {
@@ -10,11 +11,12 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconNumber(pr
         enName,
         foregroundColour,
         backgroundColour,
-        zhClassName,
-        enClassName,
         passed,
-        children,
         spanDigits: _,
+        className,
+        classNames,
+        children,
+        textProps,
         ...others
     } = props;
 
@@ -50,7 +52,12 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconNumber(pr
     };
 
     return (
-        <g ref={ref} fill={passed ? MonoColour.white : foregroundColour} {...others}>
+        <g
+            ref={ref}
+            fill={passed ? MonoColour.white : foregroundColour}
+            className={clsx(classNames?.wrapper, className)}
+            {...others}
+        >
             <InterchangeBox fill={passed ? '#aaa' : backgroundColour} />
             <g
                 ref={nameZhEl}
@@ -58,25 +65,33 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconNumber(pr
             >
                 <text
                     ref={nameZhEl}
-                    className={zhClassName}
                     fontSize={16}
                     textAnchor="end"
                     y={0.7}
                     dominantBaseline="central"
+                    className={classNames?.digits}
+                    {...textProps?.digits}
                 >
                     {digitPart}
                 </text>
-                <text className={zhClassName} fontSize={12} textAnchor="start" dominantBaseline="central">
+                <text
+                    fontSize={12}
+                    textAnchor="start"
+                    dominantBaseline="central"
+                    className={classNames?.zh}
+                    {...textProps?.zh}
+                >
                     {zhName.slice(digitPart.length)}
                 </text>
             </g>
             <text
                 ref={nameEnEl}
-                className={enClassName}
                 fontSize={8}
                 textAnchor="middle"
                 transform={`translate(0,${transforms.nameEn.y})scale(${nameEnScale})`}
                 dominantBaseline="middle"
+                className={classNames?.en}
+                {...textProps?.en}
             >
                 {enName}
             </text>

@@ -142,4 +142,35 @@ describe('GZMTR - LineIcon', () => {
         );
         expect(ref.current?.tagName).toBe('g');
     });
+
+    it('Can apply props on text elements', () => {
+        render(
+            <svg>
+                <LineIcon
+                    zhName="佛山2号线"
+                    enName="Foshan Line 2"
+                    foregroundColour={MonoColour.black}
+                    backgroundColour="#000000"
+                    textProps={{
+                        zh: {
+                            fontFamily: 'Kaiti SC',
+                            fontWeight: 700,
+                        },
+                        en: {
+                            fontFamily: 'Times New Roman',
+                            fontStyle: 'italic',
+                        },
+                    }}
+                />
+            </svg>
+        );
+
+        const zh = screen.getByText('佛山2号线');
+        expect(zh).toHaveAttribute('font-family', 'Kaiti SC');
+        expect(zh).toHaveAttribute('font-weight', '700');
+
+        const en = screen.getByText('Foshan Line 2');
+        expect(en).toHaveAttribute('font-family', 'Times New Roman');
+        expect(en).toHaveAttribute('font-style', 'italic');
+    });
 });

@@ -1,7 +1,6 @@
-/// <reference types="vitest/config" />
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { coverageConfigDefaults } from 'vitest/config';
 
 // https://vitejs.dev/config
 export default defineConfig({
@@ -17,5 +16,10 @@ export default defineConfig({
             },
         },
         watch: false,
+        coverage: {
+            provider: 'v8',
+            exclude: [...coverageConfigDefaults.exclude, '**/*.stories.tsx'],
+            include: ['src'],
+        },
     },
 });

@@ -1,13 +1,41 @@
-import LineIconComponent from './line-icon';
+import LineIconComponent, { LineIconProps } from './line-icon';
 import { StoryObj } from '@storybook/react';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 
 export default {
     title: 'GZMTR/Line Icon',
     component: LineIconComponent,
+    tags: ['autodocs'],
 };
 
 type Story = StoryObj<typeof LineIconComponent>;
+
+const CLASSNAMES_OPTIONS: Record<string, LineIconProps['classNames']> = {
+    typical: {
+        digits: 'rmg-name__en',
+        zh: 'rmg-name__zh',
+        en: 'rmg-name__en',
+    },
+    empty: {},
+};
+
+const TEXT_PROPS_OPTIONS: Record<string, LineIconProps['textProps']> = {
+    empty: {},
+    nerd: {
+        digits: {
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+        },
+        zh: {
+            fontFamily: 'Kaiti SC',
+            fontWeight: 700,
+        },
+        en: {
+            fontFamily: 'Times New Roman',
+            fontStyle: 'italic',
+        },
+    },
+};
 
 export const LineIcon: Story = {
     args: {
@@ -15,9 +43,9 @@ export const LineIcon: Story = {
         enName: 'Line 2',
         foregroundColour: MonoColour.white,
         backgroundColour: '#00629B',
-        zhClassName: 'rmg-name__zh',
-        enClassName: 'rmg-name__en',
         spanDigits: true,
+        classNames: CLASSNAMES_OPTIONS.typical,
+        textProps: TEXT_PROPS_OPTIONS.empty,
     },
     argTypes: {
         zhName: {
@@ -38,6 +66,16 @@ export const LineIcon: Story = {
         spanDigits: {
             options: [true, false],
             control: { type: 'inline-radio' },
+        },
+        classNames: {
+            options: Object.keys(CLASSNAMES_OPTIONS),
+            mapping: CLASSNAMES_OPTIONS,
+            control: { type: 'radio' },
+        },
+        textProps: {
+            options: Object.keys(TEXT_PROPS_OPTIONS),
+            mapping: TEXT_PROPS_OPTIONS,
+            control: { type: 'radio' },
         },
     },
 };

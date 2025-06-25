@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useRef, useState } from 'react';
 import { LineIconProps } from './line-icon';
 import InterchangeBox from './interchange-box';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
+import clsx from 'clsx';
 
 export default forwardRef<SVGGElement, LineIconProps>(function LineIconLong(props, ref) {
     const {
@@ -9,11 +10,12 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconLong(prop
         enName,
         foregroundColour,
         backgroundColour,
-        zhClassName,
-        enClassName,
         passed,
-        children,
         spanDigits: _,
+        className,
+        classNames,
+        children,
+        textProps,
         ...others
     } = props;
 
@@ -28,13 +30,19 @@ export default forwardRef<SVGGElement, LineIconProps>(function LineIconLong(prop
     const boxWidth = Math.max(45, bBox.width + 4);
 
     return (
-        <g ref={ref} textAnchor="middle" fill={passed ? MonoColour.white : foregroundColour} {...others}>
+        <g
+            ref={ref}
+            textAnchor="middle"
+            fill={passed ? MonoColour.white : foregroundColour}
+            className={clsx(classNames?.wrapper, className)}
+            {...others}
+        >
             <InterchangeBox customWidth={boxWidth} fill={passed ? '#aaa' : backgroundColour} />
             <g ref={wrapperEl}>
-                <text className={zhClassName} fontSize={8.5} y={8} dominantBaseline="central">
+                <text fontSize={8.5} y={8} dominantBaseline="central" className={classNames?.zh} {...textProps?.zh}>
                     {zhName}
                 </text>
-                <text className={enClassName} fontSize={5.5} y={18} dominantBaseline="middle">
+                <text fontSize={5.5} y={18} dominantBaseline="middle" className={classNames?.en} {...textProps?.en}>
                     {enName}
                 </text>
             </g>
