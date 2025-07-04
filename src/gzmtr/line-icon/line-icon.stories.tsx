@@ -1,5 +1,5 @@
 import LineIconComponent, { LineIconProps } from './line-icon';
-import { StoryObj } from '@storybook/react';
+import { StoryObj } from '@storybook/react-vite';
 import { MonoColour } from '@railmapgen/rmg-palette-resources';
 
 export default {

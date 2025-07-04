@@ -1,5 +1,5 @@
 import Np360Icon from './np360-icon';
-import { StoryObj } from '@storybook/react';
+import { StoryObj } from '@storybook/react-vite';
 import '../../index.css';
 
 export default {

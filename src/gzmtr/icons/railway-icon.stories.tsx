@@ -1,5 +1,5 @@
 import RailwayIconComponent from './railway-icon';
-import { StoryObj } from '@storybook/react';
+import { StoryObj } from '@storybook/react-vite';
 import '../../index.css';
 
 export default {

@@ -1,6 +1,6 @@
 import SvgAssetsContextProvider from './svg-assets-context-provider';
 import { StationNumber } from '../../gzmtr';
-import { StoryObj } from '@storybook/react';
+import { StoryObj } from '@storybook/react-vite';
 import { useContext, useState } from 'react';
 import { SvgAssetsContext } from '../index';
 

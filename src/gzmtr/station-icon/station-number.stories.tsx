@@ -1,6 +1,6 @@
 import StationNumberComponent from './station-number';
 import '../../index.css';
-import { StoryObj } from '@storybook/react';
+import { StoryObj } from '@storybook/react-vite';
 import { GenericStationNumberProps } from './generic-station-number';
 
 export default {

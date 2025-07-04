@@ -1,5 +1,5 @@
 import MidpointStationComponent from './midpoint-station';
-import { StoryObj } from '@storybook/react';
+import { StoryObj } from '@storybook/react-vite';
 
 export default {
     title: 'GZMTR/Midpoint Station',

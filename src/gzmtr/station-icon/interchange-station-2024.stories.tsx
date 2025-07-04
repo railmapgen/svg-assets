@@ -4,7 +4,7 @@ import InterchangeStation2024Component, {
     InterchangeStation2024Props,
 } from './interchange-station-2024';
 import '../../index.css';
-import { StoryObj } from '@storybook/react';
+import { StoryObj } from '@storybook/react-vite';
 import { useContext, useEffect, useRef, useState } from 'react';
 import SvgAssetsContextProvider from '../../utils/context/svg-assets-context-provider';
 import SvgAssetsContext from '../../utils/context/svg-assets-context';
