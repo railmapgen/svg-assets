@@ -87,7 +87,7 @@ const BORDER_WIDTH = ICON_STROKE_WIDTH * 7;
 const OSI_BORDER_WIDTH = ICON_STROKE_WIDTH * 2.2;
 
 export default forwardRef<InterchangeStation2024Handle, InterchangeStation2024Props>(function InterchangeStation2024(
-    { stations, classNames, columns = 2, topHeavy, anchorAt, osiPosition, children, ...others },
+    { stations, classNames, textProps, columns = 2, topHeavy, anchorAt, osiPosition, children, ...others },
     ref
 ) {
     const translates = useMemo(
@@ -192,7 +192,7 @@ export default forwardRef<InterchangeStation2024Handle, InterchangeStation2024Pr
                 <rect fill="white" x={-12} y={translates[0][1]} width={24} height={-translates[0][1] * 2} />
             )}
 
-            {stations.map(({ style, ...others }, i) => {
+            {stations.map(({ style, ...otherStationProps }, i) => {
                 const StationNumberComponent = style === 'fmetro' ? FMetroStationNumber : StationNumber;
                 return (
                     <StationNumberComponent
@@ -200,7 +200,8 @@ export default forwardRef<InterchangeStation2024Handle, InterchangeStation2024Pr
                         ref={el => (stationNumberRefs.current[i] = el)}
                         transform={`translate(${translates[i][0]},${translates[i][1]})`}
                         classNames={classNames}
-                        {...others}
+                        textProps={textProps}
+                        {...otherStationProps}
                     />
                 );
             })}
