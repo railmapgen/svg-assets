@@ -51,7 +51,7 @@
         "storybook": "storybook dev -p 6006",
         "build:storybook": "storybook build"
     },
-    "version": "8.0.2",
+    "version": "8.0.3",
     "type": "module",
     "main": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
