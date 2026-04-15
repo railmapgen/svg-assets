@@ -1,4 +1,4 @@
-module.exports = app => {
+export default app => {
     app.get('/iframe.html/info.json', (req, res) => {
         res.send({
             component: 'svg-assets',
