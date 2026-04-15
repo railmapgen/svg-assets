@@ -1,0 +1,3 @@
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./src-CEDwscHZ.js";import{n,t as r}from"./airport-icon-RdcS-Q0B.js";var i,a,o;e((()=>{n(),t(),i={title:`GZMTR/Airport Icon`,component:r},a={args:{}},a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  args: {}
+}`,...a.parameters?.docs?.source}}},o=[`AirportIcon`]}))();export{a as AirportIcon,o as __namedExportsOrder,i as default};
