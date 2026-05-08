@@ -197,7 +197,9 @@ export default forwardRef<InterchangeStation2024Handle, InterchangeStation2024Pr
                 return (
                     <StationNumberComponent
                         key={i}
-                        ref={el => (stationNumberRefs.current[i] = el)}
+                        ref={el => {
+                            stationNumberRefs.current[i] = el;
+                        }}
                         transform={`translate(${translates[i][0]},${translates[i][1]})`}
                         classNames={classNames}
                         textProps={textProps}

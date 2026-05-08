@@ -2,10 +2,11 @@
     "compilerOptions": {
         "composite": true,
         "module": "ESNext",
-        "moduleResolution": "Node",
+        "moduleResolution": "NodeNext",
         "allowSyntheticDefaultImports": true
     },
     "include": [
-        "vite.config.mts"
+        "vite.config.mts",
+        "tsdown.config.mts"
     ]
 }

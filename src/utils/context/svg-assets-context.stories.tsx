@@ -17,14 +17,14 @@ const Demo = () => {
                     lineNum="GF"
                     stnNum="22"
                     strokeColour="red"
-                    textClassName={textClassName}
+                    classNames={{ digits: textClassName }}
                 />
                 <StationNumber
                     transform="translate(0,20)"
                     lineNum="IJ"
                     stnNum="11"
                     strokeColour="red"
-                    textClassName={textClassName}
+                    classNames={{ digits: textClassName }}
                 />
             </g>
 
