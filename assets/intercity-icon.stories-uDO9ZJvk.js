@@ -1,0 +1,3 @@
+import{n as e}from"./chunk-DnJy8xQt.js";import{t}from"./src-BPnI3a67.js";import{n,t as r}from"./intercity-icon-BVDjYaIF.js";var i,a,o;e((()=>{n(),t(),i={title:`GZMTR/Intercity Icon`,component:r},a={args:{}},a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  args: {}
+}`,...a.parameters?.docs?.source}}},o=[`IntercityIcon`]}))();export{a as IntercityIcon,o as __namedExportsOrder,i as default};
