@@ -18,6 +18,7 @@ export default defineConfig({
         watch: false,
         coverage: {
             provider: 'v8',
+            skipFull: true,
             exclude: [...coverageConfigDefaults.exclude, '**/*.stories.tsx'],
             include: ['src'],
         },
